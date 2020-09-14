@@ -10,33 +10,68 @@ import Foundation
 open class Identifier<IdentifierType: TypeComparable>: TypeComparable, KeyPathExpression, Inconstant {
   public typealias QIComparisonType = IdentifierType.QIComparisonType
   
-  public let qiParent: KeyPathExpression?
-  public let qiIdentifier: String
-  private let _variable: Bool
+  public enum State {
+    case identifier(String)
+    case variable(String)
+    case aggregate(Aggregate)
+    case index(Index)
+  }
   
+  public let qiParent: KeyPathExpression?
+  public let qiState: State
+    
   public required init(identifier: String, parent: KeyPathExpression? = nil) {
     identifier.qiAssertCStyleIdentifier()
     qiParent = parent
-    qiIdentifier = identifier
-    _variable = false
+    qiState = .identifier(identifier)
   }
   
   public required init(variable: String) {
     variable.qiAssertCStyleIdentifier()
     qiParent = nil
-    qiIdentifier = variable
-    _variable = true
+    qiState = .variable(variable)
+  }
+  
+  public required init(aggregate: Aggregate, parent: KeyPathExpression) {
+    qiParent = parent
+    qiState = .aggregate(aggregate)
+  }
+  
+  public required init(index: Index, parent: KeyPathExpression) {
+    qiParent = parent
+    qiState = .index(index)
   }
   
   public var qiVariable: Bool {
-    return qiParent?.qiVariable ?? _variable
+    var variable = false
+    if case .variable = qiState {
+      variable = true
+    }
+    return qiParent?.qiVariable ?? variable
   }
       
   public var qiKeyPath: [String] {
-    guard let parent = qiParent else {
-      return [qiIdentifier]
+    var keyPath: [String]
+    switch qiState {
+    case .identifier(let identifier):
+      keyPath = (qiParent?.qiKeyPath ?? []) + [identifier]
+    case .variable(let identifier):
+      keyPath = [identifier]
+    case .aggregate(let aggregate):
+      switch aggregate {
+      case .count:
+        keyPath = qiParent!.qiKeyPath + [aggregate.rawValue]
+      default:
+        keyPath = qiParent!.qiKeyPath
+        keyPath.insert(aggregate.rawValue, at: keyPath.index(before: keyPath.endIndex))
+      }
+    case .index(let index):
+      keyPath = qiParent!.qiKeyPath
+      let lastIndex = keyPath.index(before: keyPath.endIndex)
+      let identifier = keyPath[lastIndex]
+      keyPath[lastIndex] = "\(identifier)[\(index)]"
     }
-    return parent.qiKeyPath + [qiIdentifier]
+    return keyPath
   }
   
   open var qiExpression: NSExpression {
