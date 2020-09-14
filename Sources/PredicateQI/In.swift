@@ -15,6 +15,16 @@ public func `in`<E: Expression>(_ lhs: Expression, _ rhs: E...) -> ComparisonPre
   `in`(lhs, rhs)
 }
 
+public extension Expression where Self: TypeComparable {
+  func qiIn<Expressions: Sequence>(_ rhs: Expressions) -> ComparisonPredicate where Expressions.Element: Expression & TypeComparable, Expressions.Element.QIComparisonType == Self.QIComparisonType {
+    `in`(self, rhs)
+  }
+  
+  func qiIn<E: Expression & TypeComparable>(_ rhs: E...) -> ComparisonPredicate where E.QIComparisonType == Self.QIComparisonType {
+    qiIn(rhs)
+  }
+}
+
 public func ==<L: Expression & TypeComparable & Inconstant, R: Expression & TypeComparable, Expressions: Sequence>(_ lhs: L, _ rhs: Expressions) -> ComparisonPredicate where Expressions.Element == R, L.QIComparisonType == R.QIComparisonType {
   `in`(lhs, rhs)
 }
