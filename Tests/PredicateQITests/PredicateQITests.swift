@@ -2,14 +2,50 @@ import XCTest
 @testable import PredicateQI
 
 final class PredicateQITests: XCTestCase {
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct
-        // results.
-        XCTAssertEqual(PredicateQI().text, "Hello, World!")
-    }
-
-    static var allTests = [
-        ("testExample", testExample),
+  
+  func testRoberts() {
+    // Given
+    let people = [
+      Person(firstName: "Robert", lastName: "Smith", age: 61),
+      Person(firstName: "Stephen", lastName: "Morrissey", age: 61),
+      Person(firstName: "David", lastName: "Gahan", age: 58)
     ]
+    
+    // When
+    let roberts = people.filter { $0.firstName == "Robert" }
+    
+    // Then
+    XCTAssertEqual(roberts.count, 1)
+  }
+
+  func testMorrisseys() {
+    // Given
+    let people = [
+      Person(firstName: "Robert", lastName: "Smith", age: 61),
+      Person(firstName: "Stephen", lastName: "Morrissey", age: 61),
+      Person(firstName: "David", lastName: "Gahan", age: 58)
+    ]
+    
+    // When
+    let morrisseys = people.filter(Person.q.lastName == "Morrissey")
+    
+    // Then
+    XCTAssertEqual(morrisseys.count, 1)
+  }
+  
+  func testSomething() {
+    // Given
+    let people = [
+      Person(firstName: "Robert", lastName: "Smith", age: 61),
+      Person(firstName: "Stephen", lastName: "Morrissey", age: 61),
+      Person(firstName: "David", lastName: "Gahan", age: 58)
+    ]
+
+    // When
+    let david = people.filter { $0.lastName == "Gahan" && $0.age == 58 }
+    
+    // Then
+    XCTAssertEqual(david.count, 1)
+  }
+    
 }
