@@ -1,3 +1,4 @@
+import Nimble
 import XCTest
 @testable import PredicateQI
 
@@ -15,7 +16,7 @@ final class PredicateQITests: XCTestCase {
     let roberts = people.filter { $0.firstName == "Robert" }
     
     // Then
-    XCTAssertEqual(roberts.count, 1)
+    expect(roberts.count) == 1
   }
 
   func testMorrisseys() {
@@ -30,7 +31,7 @@ final class PredicateQITests: XCTestCase {
     let morrisseys = people.filter(Person.qi.lastName == "Morrissey")
     
     // Then
-    XCTAssertEqual(morrisseys.count, 1)
+    expect(morrisseys.count) == 1
   }
   
   func testOld() {
@@ -45,7 +46,7 @@ final class PredicateQITests: XCTestCase {
     let oldies = people.filter { $0.age > 59 }
     
     // Then
-    XCTAssertEqual(oldies.count, 2)
+    expect(oldies.count) == 2
   }
   
   func testDave() {
@@ -60,7 +61,7 @@ final class PredicateQITests: XCTestCase {
     let david = people.filter { $0.lastName == "Gahan" && $0.age == 58 }
     
     // Then
-    XCTAssertEqual(david.count, 1)
+    expect(david.count) == 1
   }
     
 }
