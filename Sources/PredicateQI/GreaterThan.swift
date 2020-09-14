@@ -1,11 +1,9 @@
 //
-//  File.swift
-//  
+//  GreaterThan.swift
+//  PredicateQI
 //
-//  Created by Gregory Higley on 9/13/20.
+//  Created by Gregory Higley on 2020-09-13.
 //
-
-import Foundation
 
 public func greaterThan(_ lhs: Expression, _ rhs: Expression) -> ComparisonPredicate {
   ComparisonPredicate(leftExpression: lhs, operator: .greaterThan, rightExpression: rhs)

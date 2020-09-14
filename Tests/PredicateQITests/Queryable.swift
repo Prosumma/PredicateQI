@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  Queryable.swift
 //  
 //
 //  Created by Gregory Higley on 9/13/20.
@@ -8,12 +8,8 @@
 import Foundation
 import PredicateQI
 
-protocol Queryable: TypeComparable {
-  associatedtype QueryIdentifier: KeyPathExpression & TypeComparable & Inconstant where QIComparisonType == Self
-}
-
 extension Queryable {
-  static var q: QueryIdentifier { .init(identifier: "self", parent: nil) }
+  static var q: QIType { .init(identifier: "self", parent: nil) }
 }
 
 extension Sequence where Element: Queryable {
@@ -21,7 +17,7 @@ extension Sequence where Element: Queryable {
     filter(predicate.qiPredicate.evaluate(with:))
   }
   
-  func filter(_ predicate: (Element.QueryIdentifier) -> Predicate) -> [Element] {
+  func filter(_ predicate: (Element.QIType) -> Predicate) -> [Element] {
     filter(predicate(Element.q))
   }
 }

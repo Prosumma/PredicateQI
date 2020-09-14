@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  Person.swift
 //  
 //
 //  Created by Gregory Higley on 9/13/20.
@@ -10,7 +10,7 @@ import PredicateQI
 
 @objcMembers
 class Person: NSObject, Queryable {
-  typealias QueryIdentifier = PersonIdentifier
+  typealias QIType = PersonIdentifier
   var firstName: String?
   var lastName: String?
   var age: NSNumber?
