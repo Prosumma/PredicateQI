@@ -27,13 +27,28 @@ final class PredicateQITests: XCTestCase {
     ]
     
     // When
-    let morrisseys = people.filter(Person.q.lastName == "Morrissey")
+    let morrisseys = people.filter(Person.qi.lastName == "Morrissey")
     
     // Then
     XCTAssertEqual(morrisseys.count, 1)
   }
   
-  func testSomething() {
+  func testOld() {
+    // Given
+    let people = [
+      Person(firstName: "Robert", lastName: "Smith", age: 61),
+      Person(firstName: "Stephen", lastName: "Morrissey", age: 61),
+      Person(firstName: "David", lastName: "Gahan", age: 58)
+    ]
+
+    // When
+    let oldies = people.filter { $0.age > 59 }
+    
+    // Then
+    XCTAssertEqual(oldies.count, 2)
+  }
+  
+  func testDave() {
     // Given
     let people = [
       Person(firstName: "Robert", lastName: "Smith", age: 61),

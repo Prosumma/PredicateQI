@@ -8,3 +8,23 @@
 public protocol Queryable: TypeComparable {
   associatedtype QIType: KeyPathExpression & TypeComparable & Inconstant where QIComparisonType == Self
 }
+
+public extension Queryable {
+  static func qi(identifier: String = "SELF") -> QIType {
+    .init(identifier: identifier, parent: nil)
+  }
+  
+  static var qi: QIType {
+    qi()
+  }
+}
+
+public extension Sequence where Element: Queryable {
+  func filter(_ predicate: Predicate) -> [Element] {
+    filter(predicate.qiPredicate.evaluate(with:))
+  }
+  
+  func filter(identifier: String = "SELF", _ predicate: (Element.QIType) -> Predicate) -> [Element] {
+    filter(predicate(Element.qi(identifier: identifier)))
+  }
+}
