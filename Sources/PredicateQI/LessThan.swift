@@ -1,6 +1,6 @@
 //
 //  LessThan.swift
-//  
+//  PredicateQI
 //
 //  Created by Gregory Higley on 2020-09-14.
 //

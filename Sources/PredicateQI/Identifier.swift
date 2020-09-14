@@ -76,7 +76,7 @@ open class Identifier<IdentifierType: TypeComparable>: TypeComparable, KeyPathEx
   
   open var qiExpression: NSExpression {
     if qiVariable {
-      return NSExpression(forVariable: qiKeyPath.joined(separator: "."))
+      return NSExpression(format: "$" + qiKeyPath.joined(separator: "."))
     } else {
       let identifiers = qiKeyPath
       let keyPath: String
@@ -85,7 +85,7 @@ open class Identifier<IdentifierType: TypeComparable>: TypeComparable, KeyPathEx
       } else {
         keyPath = identifiers.dropFirst().joined(separator: ".")
       }
-      return NSExpression(forKeyPath: keyPath)
+      return NSExpression(format: keyPath)
     }
   }
   

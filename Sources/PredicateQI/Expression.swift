@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol Expression {
+public protocol Expression: CustomStringConvertible {
   var qiExpression: NSExpression { get }
 }
 
@@ -15,3 +15,8 @@ extension NSExpression: Expression {
   public var qiExpression: NSExpression { self }
 }
 
+public extension Expression {
+  var description: String {
+    String(describing: qiExpression)
+  }
+}

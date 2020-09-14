@@ -7,7 +7,8 @@
 
 import Foundation
 
-public struct TypedExpression<ExpressionType: TypeComparable>: Expression & TypeComparable {
+/// Wraps any `Expression` and gives it a (new) type.
+public struct TypedExpression<ExpressionType: TypeComparable>: Expression & TypeComparable & Inconstant {
   public typealias QIComparisonType = ExpressionType.QIComparisonType
   
   public let wrapped: Expression

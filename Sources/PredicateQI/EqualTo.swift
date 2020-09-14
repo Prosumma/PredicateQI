@@ -1,6 +1,6 @@
 //
 //  EqualTo.swift
-//  
+//  PredicateQI
 //
 //  Created by Gregory Higley on 9/13/20.
 //

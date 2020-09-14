@@ -1,6 +1,6 @@
 //
 //  Aggregate.swift
-//  
+//  PredicateQI
 //
 //  Created by Gregory Higley on 2020-09-14.
 //
@@ -14,16 +14,19 @@ public enum Aggregate: String {
   case sum = "@sum"
 }
 
+public extension Expression {
+  var qiCount: TypedExpression<Int> {
+    .init(NSExpression(format: "\(self).@count"))
+  }
+}
+
 public extension KeyPathExpression where Self: TypeComparable, QIComparisonType == NSNumber {
-  var qiSum: some KeyPathExpression & TypeComparable {
-    return Identifier<Self>(aggregate: .sum, parent: self)
+  var qiSum: TypedExpression<Self> {
+    .init(Identifier<Self>(aggregate: .sum, parent: self))
   }
 }
 
 public extension KeyPathExpression where Self: TypeComparable {
-  var qiCount: TypedExpression<Int> {
-    .init(Identifier<Self>(aggregate: .count, parent: self))
-  }
   var qiMin: TypedExpression<Self> {
     .init(Identifier<Self>(aggregate: .min, parent: self))
   }
