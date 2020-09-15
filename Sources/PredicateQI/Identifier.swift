@@ -11,35 +11,46 @@ open class Identifier<IdentifierType: TypeComparable>: TypeComparable, KeyPathEx
   public typealias QIComparisonType = IdentifierType.QIComparisonType
   
   public enum State {
-    case identifier(String)
-    case variable(String)
-    case aggregate(Aggregate)
-    case index(Index)
+    case identifier(CIdentifier, parent: KeyPathExpression?)
+    case variable(CIdentifier)
+    case aggregate(Aggregate, parent: KeyPathExpression)
+    case index(Index, parent: KeyPathExpression)
+        
+    public var parent: KeyPathExpression? {
+      switch self {
+      case let .identifier(_, parent: parent): return parent
+      case .variable: return nil
+      case let .aggregate(_, parent: parent): return parent
+      case let .index(_, parent: parent): return parent
+      }
+    }
   }
   
-  public let qiParent: KeyPathExpression?
   public let qiState: State
+  
+  /**
+   `init(state:)` is the designated initializer. Use this only in
+   subclasses. When creating an instance, use one of the convenience
+   initializers.
+   */
+  public required init(state: State) {
+    qiState = state
+  }
     
-  public required init(identifier: String, parent: KeyPathExpression? = nil) {
-    identifier.qiAssertCStyleIdentifier()
-    qiParent = parent
-    qiState = .identifier(identifier)
+  public required convenience init(identifier: CIdentifier, parent: KeyPathExpression? = nil) {
+    self.init(state: .identifier(identifier, parent: parent))
   }
   
-  public required init(variable: String) {
-    variable.qiAssertCStyleIdentifier()
-    qiParent = nil
-    qiState = .variable(variable)
+  public required convenience init(variable: CIdentifier) {
+    self.init(state: .variable(variable))
   }
   
-  public required init(aggregate: Aggregate, parent: KeyPathExpression) {
-    qiParent = parent
-    qiState = .aggregate(aggregate)
+  public required convenience init(aggregate: Aggregate, parent: KeyPathExpression) {
+    self.init(state: .aggregate(aggregate, parent: parent))
   }
   
-  public required init(index: Index, parent: KeyPathExpression) {
-    qiParent = parent
-    qiState = .index(index)
+  public required convenience init(index: Index, parent: KeyPathExpression) {
+    self.init(state: .index(index, parent: parent))
   }
   
   public var qiVariable: Bool {
@@ -47,26 +58,26 @@ open class Identifier<IdentifierType: TypeComparable>: TypeComparable, KeyPathEx
     if case .variable = qiState {
       variable = true
     }
-    return qiParent?.qiVariable ?? variable
+    return qiState.parent?.qiVariable ?? variable
   }
       
   public var qiKeyPath: [String] {
     var keyPath: [String]
     switch qiState {
-    case .identifier(let identifier):
-      keyPath = (qiParent?.qiKeyPath ?? []) + [identifier]
-    case .variable(let identifier):
-      keyPath = [identifier]
-    case .aggregate(let aggregate):
+    case let .identifier(identifier, parent: parent):
+      keyPath = (parent?.qiKeyPath ?? []) + [identifier.rawValue]
+    case let .variable(variable):
+      keyPath = [variable.rawValue]
+    case let .aggregate(aggregate, parent: parent):
+      keyPath = parent.qiKeyPath
       switch aggregate {
       case .count:
-        keyPath = qiParent!.qiKeyPath + [aggregate.rawValue]
+        keyPath += [aggregate.rawValue]
       default:
-        keyPath = qiParent!.qiKeyPath
         keyPath.insert(aggregate.rawValue, at: keyPath.index(before: keyPath.endIndex))
       }
-    case .index(let index):
-      keyPath = qiParent!.qiKeyPath
+    case let .index(index, parent: parent):
+      keyPath = parent.qiKeyPath
       let lastIndex = keyPath.index(before: keyPath.endIndex)
       let identifier = keyPath[lastIndex]
       keyPath[lastIndex] = "\(identifier)[\(index)]"
@@ -90,3 +101,4 @@ open class Identifier<IdentifierType: TypeComparable>: TypeComparable, KeyPathEx
   }
   
 }
+

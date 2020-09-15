@@ -10,8 +10,8 @@ import Foundation
 public protocol KeyPathExpression: Expression {
   var qiKeyPath: [String] { get }
   var qiVariable: Bool { get }
-  init(identifier: String, parent: KeyPathExpression?)
-  init(variable: String)
+  init(identifier: CIdentifier, parent: KeyPathExpression?)
+  init(variable: CIdentifier)
   init(aggregate: Aggregate, parent: KeyPathExpression)
   init(index: Index, parent: KeyPathExpression)
 }

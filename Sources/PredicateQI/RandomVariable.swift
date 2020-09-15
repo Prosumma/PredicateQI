@@ -7,7 +7,7 @@
 
 import Foundation
 
-public func randomVariable() -> String {
+public func randomVariable() -> CIdentifier {
   let uuid = UUID().uuidString
-  return "v" + uuid[uuid.index(uuid.endIndex, offsetBy: -8)..<uuid.endIndex].lowercased()
+  return CIdentifier("v" + uuid[uuid.index(uuid.endIndex, offsetBy: -8)..<uuid.endIndex].lowercased())
 }

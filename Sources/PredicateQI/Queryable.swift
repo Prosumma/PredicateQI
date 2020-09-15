@@ -10,7 +10,7 @@ public protocol Queryable: TypeComparable {
 }
 
 public extension Queryable {
-  static func qi(identifier: String = "SELF") -> QIType {
+  static func qi(identifier: CIdentifier = .SELF) -> QIType {
     .init(identifier: identifier, parent: nil)
   }
   
@@ -24,7 +24,7 @@ public extension Sequence where Element: Queryable {
     filter(predicate.qiPredicate.evaluate(with:))
   }
   
-  func filter(identifier: String = "SELF", _ predicate: (Element.QIType) -> Predicate) -> [Element] {
+  func filter(identifier: CIdentifier = .SELF, _ predicate: (Element.QIType) -> Predicate) -> [Element] {
     filter(predicate(Element.qi(identifier: identifier)))
   }
 }
