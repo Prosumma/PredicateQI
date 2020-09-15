@@ -46,11 +46,7 @@ public struct ComparisonPredicate {
   
   public func diacriticInsensitive() -> ComparisonPredicate {
     ComparisonPredicate(copying: self, adding: [.diacriticInsensitive])
-  }
-  
-  public func normalized() -> ComparisonPredicate {
-    ComparisonPredicate(copying: self, adding: [.normalized])
-  }
+  }  
 }
 
 extension ComparisonPredicate: Predicate {
@@ -77,8 +73,4 @@ public func ci(_ predicate: ComparisonPredicate) -> ComparisonPredicate {
 
 public func di(_ predicate: ComparisonPredicate) -> ComparisonPredicate {
   return predicate.diacriticInsensitive()
-}
-
-public func n(_ predicate: ComparisonPredicate) -> ComparisonPredicate {
-  return predicate.normalized()
 }
