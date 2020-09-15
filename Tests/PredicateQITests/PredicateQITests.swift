@@ -4,7 +4,8 @@ import XCTest
 
 final class PredicateQITests: XCTestCase {
   func testPredicates() {
-    let filtered = bands.filter(Band.qi.members.qiSubquery { $0.age < 60 }.qiCount > 2)
+    print(Band.qi.members.qiSubquery { $0.age == nil }.qiCount)
+    let filtered = bands.filter { $0.members.qiSubquery { $0.age == nil }.qiCount > 1 }
     print(filtered.count)
   }
 }

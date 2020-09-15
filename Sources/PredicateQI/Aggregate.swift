@@ -12,6 +12,13 @@ public enum Aggregate: String {
   case min = "@min"
   case max = "@max"
   case sum = "@sum"
+  
+  public var appended: Bool {
+    switch self {
+    case .count: return true
+    default: return false
+    }
+  }
 }
 
 public extension Expression {

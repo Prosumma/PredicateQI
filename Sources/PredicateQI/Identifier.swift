@@ -16,7 +16,7 @@ open class Identifier<IdentifierType: TypeComparable>: TypeComparable, KeyPathEx
     qiState = state
   }
     
-  public var qiKeyPath: [String] {
+  open var qiKeyPath: [String] {
     var keyPath: [String]
     switch qiState {
     case let .identifier(identifier, parent: parent):
@@ -25,10 +25,9 @@ open class Identifier<IdentifierType: TypeComparable>: TypeComparable, KeyPathEx
       keyPath = [variable.rawValue]
     case let .aggregate(aggregate, parent: parent):
       keyPath = parent.qiKeyPath
-      switch aggregate {
-      case .count:
+      if aggregate.appended {
         keyPath += [aggregate.rawValue]
-      default:
+      } else {
         keyPath.insert(aggregate.rawValue, at: keyPath.index(before: keyPath.endIndex))
       }
     case let .index(index, parent: parent):
@@ -41,8 +40,9 @@ open class Identifier<IdentifierType: TypeComparable>: TypeComparable, KeyPathEx
   }
   
   open var qiExpression: NSExpression {
+    let format: String
     if qiState.isVariable {
-      return NSExpression(format: "$" + qiKeyPath.joined(separator: "."))
+      format = "$" + qiKeyPath.joined(separator: ".")
     } else {
       let identifiers = qiKeyPath
       let keyPath: String
@@ -51,9 +51,9 @@ open class Identifier<IdentifierType: TypeComparable>: TypeComparable, KeyPathEx
       } else {
         keyPath = identifiers.dropFirst().joined(separator: ".")
       }
-      return NSExpression(format: keyPath)
+      format = keyPath
     }
+    return NSExpression(format: format)
   }
   
 }
-
