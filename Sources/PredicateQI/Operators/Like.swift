@@ -10,7 +10,7 @@ public func like(_ lhs: Expression, _ rhs: Expression) -> ComparisonPredicate {
 }
 
 public extension Expression where Self: TypeComparable, QIComparisonType == String {
-  func qiLike(_ rhs: String) -> ComparisonPredicate {
+  func qiLike<R: Expression & TypeComparable>(_ rhs: R) -> ComparisonPredicate where R.QIComparisonType == String {
     like(self, rhs)
   }
 }
