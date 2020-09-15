@@ -9,9 +9,24 @@ import Foundation
 
 public protocol KeyPathExpression: Expression {
   var qiKeyPath: [String] { get }
-  var qiVariable: Bool { get }
-  init(identifier: CIdentifier, parent: KeyPathExpression?)
-  init(variable: CIdentifier)
-  init(aggregate: Aggregate, parent: KeyPathExpression)
-  init(index: Index, parent: KeyPathExpression)
+  var qiState: IdentifierState { get }
+  init(state: IdentifierState)
+}
+
+public extension KeyPathExpression {
+  init(identifier: CIdentifier, parent: KeyPathExpression?) {
+    self.init(state: .identifier(identifier, parent: parent))
+  }
+  
+  init(variable: CIdentifier) {
+    self.init(state: .variable(variable))
+  }
+  
+  init(aggregate: Aggregate, parent: KeyPathExpression) {
+    self.init(state: .aggregate(aggregate, parent: parent))
+  }
+  
+  init(index: Index, parent: KeyPathExpression) {
+    self.init(state: .index(index, parent: parent))
+  }  
 }

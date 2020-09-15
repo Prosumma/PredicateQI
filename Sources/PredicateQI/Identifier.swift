@@ -10,57 +10,12 @@ import Foundation
 open class Identifier<IdentifierType: TypeComparable>: TypeComparable, KeyPathExpression, Inconstant {
   public typealias QIComparisonType = IdentifierType.QIComparisonType
   
-  public enum State {
-    case identifier(CIdentifier, parent: KeyPathExpression?)
-    case variable(CIdentifier)
-    case aggregate(Aggregate, parent: KeyPathExpression)
-    case index(Index, parent: KeyPathExpression)
-        
-    public var parent: KeyPathExpression? {
-      switch self {
-      case let .identifier(_, parent: parent): return parent
-      case .variable: return nil
-      case let .aggregate(_, parent: parent): return parent
-      case let .index(_, parent: parent): return parent
-      }
-    }
-  }
+  public let qiState: IdentifierState
   
-  public let qiState: State
-  
-  /**
-   `init(state:)` is the designated initializer. Use this only in
-   subclasses. When creating an instance, use one of the convenience
-   initializers.
-   */
-  public required init(state: State) {
+  public required init(state: IdentifierState) {
     qiState = state
   }
     
-  public required convenience init(identifier: CIdentifier, parent: KeyPathExpression? = nil) {
-    self.init(state: .identifier(identifier, parent: parent))
-  }
-  
-  public required convenience init(variable: CIdentifier) {
-    self.init(state: .variable(variable))
-  }
-  
-  public required convenience init(aggregate: Aggregate, parent: KeyPathExpression) {
-    self.init(state: .aggregate(aggregate, parent: parent))
-  }
-  
-  public required convenience init(index: Index, parent: KeyPathExpression) {
-    self.init(state: .index(index, parent: parent))
-  }
-  
-  public var qiVariable: Bool {
-    var variable = false
-    if case .variable = qiState {
-      variable = true
-    }
-    return qiState.parent?.qiVariable ?? variable
-  }
-      
   public var qiKeyPath: [String] {
     var keyPath: [String]
     switch qiState {
@@ -86,7 +41,7 @@ open class Identifier<IdentifierType: TypeComparable>: TypeComparable, KeyPathEx
   }
   
   open var qiExpression: NSExpression {
-    if qiVariable {
+    if qiState.isVariable {
       return NSExpression(format: "$" + qiKeyPath.joined(separator: "."))
     } else {
       let identifiers = qiKeyPath
