@@ -47,10 +47,22 @@ class OperatorTests: BaseTestCase {
   
   func testEqualTo() {
     // When
-    let apples = Self.products.filter { $0.sku == "01-apple" }
+    let apples1 = Self.products.filter { $0.sku == "01-apple" }
+    let apples2 = Self.products.filter { "01-apple" == $0.sku }
     
     // Then
-    expect(apples.count) == 1
+    expect(apples1.count) == 1
+    expect(apples2.count) == apples1.count
+  }
+  
+  func testEqualToNull() {
+    // When
+    let apples1 = Self.products.filter { $0.sku == nil }
+    let apples2 = Self.products.filter { nil == $0.sku }
+    
+    // Then
+    expect(apples1.count) == 0
+    expect(apples2.count) == apples1.count
   }
   
   func testGreaterThan() {
@@ -111,12 +123,24 @@ class OperatorTests: BaseTestCase {
     expect(fruit.count) == 3
   }
   
-  func testNotEqualTo() {
+  func testNotEqualToXYZ() {
     // When
-    let allProducts = Self.products.filter { $0.sku != nil }
+    let allProducts1 = Self.products.filter { $0.sku == "xyz" }
+    let allProducts2 = Self.products.filter { "xyz" == $0.sku }
     
     // Then
-    expect(allProducts.count) == Self.products.count
+    expect(allProducts1.count) == 0
+    expect(allProducts2.count) == allProducts1.count
+  }
+  
+  func testNotEqualTo() {
+    // When
+    let allProducts1 = Self.products.filter { $0.sku != nil }
+    let allProducts2 = Self.products.filter { nil != $0.sku }
+    
+    // Then
+    expect(allProducts1.count) == Self.products.count
+    expect(allProducts2.count) == allProducts1.count
   }
   
   func testNotIn() {

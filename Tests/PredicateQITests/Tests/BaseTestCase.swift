@@ -31,7 +31,7 @@ class BaseTestCase: XCTestCase {
     let carmela = Customer(firstName: "Carmela", lastName: "Soprano")
     customers.append(contentsOf: [jane, jon, bob, tony, carmela])
 
-    var o = Order(customer: jane, date: Date())
+    let o = Order(customer: jane, date: Date())
     o.details.append(.init(product: lemon, quantity: 3))
     o.details.append(.init(product: fish, quantity: 1))
     orders.append(o)

@@ -7,7 +7,7 @@
 
 import Foundation
 
-open class Identifier<IdentifierType: TypeComparable>: TypeComparable, KeyPathExpression, Inconstant {
+open class Identifier<IdentifierType: TypeComparable>: TypeComparable, KeyPathExpression, Inconstant, ExpressibleByStringLiteral {
   public typealias QIComparisonType = IdentifierType.QIComparisonType
   
   public let qiState: IdentifierState
@@ -15,23 +15,27 @@ open class Identifier<IdentifierType: TypeComparable>: TypeComparable, KeyPathEx
   public required init(state: IdentifierState) {
     qiState = state
   }
-    
-  open var qiKeyPath: [String] {
+  
+  public required convenience init(stringLiteral value: String) {
+    self.init(state: .identifier(CIdentifier(value), parent: nil))
+  }
+      
+  open var qiIdentifiers: [String] {
     var keyPath: [String]
     switch qiState {
     case let .identifier(identifier, parent: parent):
-      keyPath = (parent?.qiKeyPath ?? []) + [identifier.rawValue]
+      keyPath = (parent?.qiIdentifiers ?? []) + [identifier.rawValue]
     case let .variable(variable):
       keyPath = [variable.rawValue]
     case let .aggregate(aggregate, parent: parent):
-      keyPath = parent.qiKeyPath
+      keyPath = parent.qiIdentifiers
       if aggregate.appended {
         keyPath += [aggregate.rawValue]
       } else {
         keyPath.insert(aggregate.rawValue, at: keyPath.index(before: keyPath.endIndex))
       }
     case let .index(index, parent: parent):
-      keyPath = parent.qiKeyPath
+      keyPath = parent.qiIdentifiers
       let lastIndex = keyPath.index(before: keyPath.endIndex)
       let identifier = keyPath[lastIndex]
       keyPath[lastIndex] = "\(identifier)[\(index)]"
@@ -39,21 +43,24 @@ open class Identifier<IdentifierType: TypeComparable>: TypeComparable, KeyPathEx
     return keyPath
   }
   
-  open var qiExpression: NSExpression {
-    let format: String
+  open var qiKeyPath: String {
     if qiState.isVariable {
-      format = "$" + qiKeyPath.joined(separator: ".")
+      return "$" + qiIdentifiers.joined(separator: ".")
     } else {
-      let identifiers = qiKeyPath
+      let identifiers = qiIdentifiers
       let keyPath: String
       if identifiers.count == 1 {
         keyPath = identifiers[0]
       } else {
         keyPath = identifiers.dropFirst().joined(separator: ".")
       }
-      format = keyPath
+      return keyPath
     }
-    return NSExpression(format: format)
+  }
+
+  /// Produces an `NSExpression` from the receiver
+  open var qiExpression: NSExpression {
+    NSExpression(format: qiKeyPath)
   }
   
 }

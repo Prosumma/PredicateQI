@@ -8,14 +8,18 @@
 import Foundation
 
 public protocol KeyPathExpression: Expression {
-  var qiKeyPath: [String] { get }
+  var qiIdentifiers: [String] { get }
   var qiState: IdentifierState { get }
   init(state: IdentifierState)
 }
 
 public extension KeyPathExpression {
-  init(identifier: CIdentifier, parent: KeyPathExpression?) {
+  init(identifier: CIdentifier, parent: KeyPathExpression? = nil) {
     self.init(state: .identifier(identifier, parent: parent))
+  }
+  
+  init() {
+    self.init(identifier: .SELF)
   }
   
   init(variable: CIdentifier) {
@@ -28,5 +32,9 @@ public extension KeyPathExpression {
   
   init(index: Index, parent: KeyPathExpression) {
     self.init(state: .index(index, parent: parent))
-  }  
+  }
+  
+  var randomVariable: Self {
+    .init(variable: PredicateQI.randomVariable())
+  }
 }

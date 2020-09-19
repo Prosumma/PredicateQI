@@ -5,8 +5,6 @@
 //  Created by Gregory Higley on 9/15/20.
 //
 
-import Foundation
-
 import Nimble
 import XCTest
 @testable import PredicateQI

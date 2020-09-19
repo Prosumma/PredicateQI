@@ -6,8 +6,11 @@
 //
 
 public extension String {
+  var qiCStyleIdentifier: Bool {
+    nil != range(of: "^[a-zA-Z_][a-zA-Z0-9_]*$", options: .regularExpression, range: nil, locale: nil)
+  }
   func qiAssertCStyleIdentifier() {
-    guard nil != range(of: "^[a-zA-Z_][a-zA-Z0-9_]*$", options: .regularExpression, range: nil, locale: nil) else {
+    guard qiCStyleIdentifier else {
       return assertionFailure("\(self) is not a C-style identifier.")
     }
   }

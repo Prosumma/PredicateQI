@@ -30,7 +30,7 @@ public func subquery<Collection: KeyPathExpression>(collection: Collection, vari
 }
 
 public extension KeyPathExpression where Self: TypeComparable {
-  func qiSubquery(variable: CIdentifier = randomVariable(), predicate: @escaping (Self) -> Predicate) -> SubqueryExpression<Self> {
+  func qiSubquery(variable: CIdentifier = PredicateQI.randomVariable(), predicate: @escaping (Self) -> Predicate) -> SubqueryExpression<Self> {
     subquery(collection: self, variable: variable, predicate: predicate)
   }
 }
