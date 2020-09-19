@@ -8,6 +8,11 @@
 import Foundation
 
 public struct CIdentifier: RawRepresentable, CustomStringConvertible, Hashable, ExpressibleByStringLiteral {
+  public static func random() -> CIdentifier {
+    let uuid = UUID().uuidString
+    return CIdentifier("v" + uuid[uuid.index(uuid.endIndex, offsetBy: -8)..<uuid.endIndex].lowercased())
+  }
+  
   public let rawValue: String
   
   public init(_ identifier: String) {

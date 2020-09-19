@@ -35,6 +35,6 @@ public extension KeyPathExpression {
   }
   
   var randomVariable: Self {
-    .init(variable: PredicateQI.randomVariable())
+    .init(variable: CIdentifier.random())
   }
 }

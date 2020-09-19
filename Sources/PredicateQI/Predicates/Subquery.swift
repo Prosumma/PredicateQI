@@ -25,12 +25,12 @@ public struct SubqueryExpression<Collection: KeyPathExpression & TypeComparable>
   }
 }
 
-public func subquery<Collection: KeyPathExpression>(collection: Collection, variable: CIdentifier = randomVariable(), predicate: @escaping (Collection) -> Predicate) -> SubqueryExpression<Collection> {
+public func subquery<Collection: KeyPathExpression>(collection: Collection, variable: CIdentifier = .random(), predicate: @escaping (Collection) -> Predicate) -> SubqueryExpression<Collection> {
   SubqueryExpression(collection: collection, variable: variable, predicate: predicate)
 }
 
 public extension KeyPathExpression where Self: TypeComparable {
-  func qiSubquery(variable: CIdentifier = PredicateQI.randomVariable(), predicate: @escaping (Self) -> Predicate) -> SubqueryExpression<Self> {
+  func qiSubquery(variable: CIdentifier = .random(), predicate: @escaping (Self) -> Predicate) -> SubqueryExpression<Self> {
     subquery(collection: self, variable: variable, predicate: predicate)
   }
 }
