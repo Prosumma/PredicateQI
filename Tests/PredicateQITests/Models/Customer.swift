@@ -23,7 +23,7 @@ final class Customer: NSObject, Queryable {
 }
 
 final class CustomerEntity: Identifier<Customer> {
-  private(set) lazy var firstName = Identifier<String>(identifier: "firstName", parent: self)
-  private(set) lazy var lastName = Identifier<String>(identifier: "lastName", parent: self)
+  private(set) lazy var firstName = Identifier<String>(identifier: .firstName, parent: self)
+  private(set) lazy var lastName = Identifier<String>(identifier: .lastName, parent: self)
   private(set) lazy var orders = OrderEntity(identifier: "orders", parent: self)
 }

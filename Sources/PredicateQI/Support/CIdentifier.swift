@@ -33,4 +33,14 @@ public struct CIdentifier: RawRepresentable, CustomStringConvertible, Hashable, 
 
 public extension CIdentifier {
   static let SELF: CIdentifier = "SELF"
+  
+  static let amount: CIdentifier = "amount"
+  static let date: CIdentifier = "date"
+  static let firstName: CIdentifier = "firstName"
+  static let id: CIdentifier = "id"
+  static let lastName: CIdentifier = "lastName"
+  static let name: CIdentifier = "name"
+  static let price: CIdentifier = "price"
+  static let quantity: CIdentifier = "quantity"
+  static let sku: CIdentifier = "sku"
 }
