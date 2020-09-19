@@ -10,7 +10,6 @@ import XCTest
 @testable import PredicateQI
 
 class LogicalTests: BaseTestCase {
-  
   func testOr() {
     // When
     let smithsAndDoes = Self.customers.filter(Customer.qi.lastName == "Smith" || Customer.qi.lastName == "Doe")

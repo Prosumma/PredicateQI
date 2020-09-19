@@ -15,15 +15,16 @@ public struct CIdentifier: RawRepresentable, CustomStringConvertible, Hashable, 
   
   public let rawValue: String
   
+  public init?(rawValue: String) {
+    guard rawValue.qiCStyleIdentifier else { return nil }
+    self.rawValue = rawValue
+  }
+  
   public init(_ identifier: String) {
     identifier.qiAssertCStyleIdentifier()
     rawValue = identifier
   }
-  
-  public init?(rawValue: String) {
-    self.init(rawValue)
-  }
-  
+    
   public init(stringLiteral value: String) {
     self.init(value)
   }
