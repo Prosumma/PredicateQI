@@ -7,6 +7,50 @@
 
 import Foundation
 
+/**
+ Represents an `Identifier` in a KVC-style key path. Since it optionally includes a reference to its
+ parent, a full KVC-compliant key path can be generated from it.
+ 
+ For simple types such as strings and numbers, `Identifier` should be used directly, for example:
+ 
+ ```swift
+ let name = Identifier<String>("name")
+ let quantity = Identifier<Int>("quantity")
+ ```
+ 
+ In fact, since `Identifier` implements `ExpressiblyByStringLiteral`, an even shorter syntax is possible:
+ 
+ ```swift
+ let name: Identifier<String> = "name"
+ let quantity: Identifier<Int> = "quantity"
+ ```
+ 
+ For composite types, `Identifier` is designed to be subclassed.
+ 
+ ```swift
+ @objcMembers
+ class Product: NSObject, Queryable {
+   typealias QIType = ProductEntity
+   var name: String
+   var sku: String
+   var count: Int
+ }
+ 
+ final class ProductEntity: Identifier<Product> {
+   private(set) lazy var name = Identifier<String>("name", parent: self)
+   private(set) lazy var sku = Identifier<String>("sku", parent: self)
+   private(set) lazy var count = Identifier<Int>("count", parent: self)
+ }
+ ```
+ 
+ Given this, it's easy to construct a predicate to query an array of products:
+ 
+ ```swift
+ products.filter { $0.count > 0 }
+ ```
+ 
+ Where `$0` is an instance of `ProductEntity`.
+ */
 open class Identifier<IdentifierType: TypeComparable>: TypeComparable, KeyPathExpression, Inconstant, ExpressibleByStringLiteral {
   public typealias QIComparisonType = IdentifierType.QIComparisonType
   
