@@ -10,6 +10,7 @@ import Foundation
 public struct CIdentifier: RawRepresentable, CustomStringConvertible, Hashable, ExpressibleByStringLiteral {
   public static func random() -> CIdentifier {
     let uuid = UUID().uuidString
+    // We need the i prefix because the first "digit" of a UUID could be numeric.
     return CIdentifier("i" + uuid[uuid.index(uuid.endIndex, offsetBy: -8)..<uuid.endIndex].lowercased())
   }
   
@@ -34,14 +35,4 @@ public struct CIdentifier: RawRepresentable, CustomStringConvertible, Hashable, 
 
 public extension CIdentifier {
   static let SELF: CIdentifier = "SELF"
-  
-  static let amount: CIdentifier = "amount"
-  static let date: CIdentifier = "date"
-  static let firstName: CIdentifier = "firstName"
-  static let id: CIdentifier = "id"
-  static let lastName: CIdentifier = "lastName"
-  static let name: CIdentifier = "name"
-  static let price: CIdentifier = "price"
-  static let quantity: CIdentifier = "quantity"
-  static let sku: CIdentifier = "sku"
 }

@@ -22,6 +22,6 @@ class OrderDetail: NSObject, Queryable {
 }
 
 final class OrderDetailEntity: Identifier<OrderDetail> {
-  private(set) lazy var product = ProductEntity(identifier: "product", parent: self)
-  private(set) lazy var quantity = Identifier<Int>(identifier: .quantity, parent: self)
+  private(set) lazy var product = ProductEntity("product", parent: self)
+  private(set) lazy var quantity = Identifier<Int>("quantity", parent: self)
 }

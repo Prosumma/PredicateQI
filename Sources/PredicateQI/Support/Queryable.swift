@@ -21,6 +21,6 @@ public extension Sequence where Element: Queryable {
   }
   
   func filter(identifier: CIdentifier = .SELF, _ predicate: (Element.QIType) -> Predicate) -> [Element] {
-    filter(predicate(.init(identifier: identifier)))
+    filter(predicate(.init(identifier)))
   }
 }

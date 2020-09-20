@@ -24,7 +24,7 @@ final class Product: NSObject, Queryable {
 }
 
 final class ProductEntity: Identifier<Product> {
-  private(set) lazy var sku = Identifier<String>(identifier: .sku, parent: self)
-  private(set) lazy var name = Identifier<String>(identifier: .name, parent: self)
-  private(set) lazy var price = Identifier<NSNumber>(identifier: .price, parent: self)
+  private(set) lazy var sku = Identifier<String>("sku", parent: self)
+  private(set) lazy var name = Identifier<String>("name", parent: self)
+  private(set) lazy var price = Identifier<NSNumber>("price", parent: self)
 }

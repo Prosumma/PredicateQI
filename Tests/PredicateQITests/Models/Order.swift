@@ -24,7 +24,7 @@ final class Order: NSObject, Queryable {
 }
 
 final class OrderEntity: Identifier<Order> {
-  private(set) lazy var customer = CustomerEntity(identifier: "customer", parent: self)
-  private(set) lazy var date = Identifier<Date>(identifier: .date, parent: self)
-  private(set) lazy var details = OrderDetailEntity(identifier: "details", parent: self)
+  private(set) lazy var customer = CustomerEntity("customer", parent: self)
+  private(set) lazy var date = Identifier<Date>("date", parent: self)
+  private(set) lazy var details = OrderDetailEntity("details", parent: self)
 }

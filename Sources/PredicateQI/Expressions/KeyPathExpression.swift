@@ -14,12 +14,8 @@ public protocol KeyPathExpression: Expression {
 }
 
 public extension KeyPathExpression {
-  init(identifier: CIdentifier, parent: KeyPathExpression? = nil) {
+  init(_ identifier: CIdentifier = .SELF, parent: KeyPathExpression? = nil) {
     self.init(state: .identifier(identifier, parent: parent))
-  }
-  
-  init() {
-    self.init(identifier: .SELF)
   }
   
   init(variable: CIdentifier) {
