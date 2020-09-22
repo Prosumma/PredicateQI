@@ -30,7 +30,7 @@ public extension KeyPathExpression {
     self.init(state: .index(index, parent: parent))
   }
   
-  var randomVariable: Self {
+  static func randomVariable() -> Self {
     .init(variable: CIdentifier.random())
   }
 }

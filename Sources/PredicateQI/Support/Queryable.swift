@@ -16,11 +16,11 @@ public extension Queryable {
 }
 
 public extension Sequence where Element: Queryable {
-  func filter(_ predicate: Predicate) -> [Element] {
+  func qiFilter(_ predicate: Predicate) -> [Element] {
     filter(predicate.qiPredicate.evaluate(with:))
   }
   
-  func filter(identifier: CIdentifier = .SELF, _ predicate: (Element.QIType) -> Predicate) -> [Element] {
-    filter(predicate(.init(identifier)))
+  func qiFilter(_ predicate: (Element.QIType) -> Predicate) -> [Element] {
+    qiFilter(predicate(.init()))
   }
 }

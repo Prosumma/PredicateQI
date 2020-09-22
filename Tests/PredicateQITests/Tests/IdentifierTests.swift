@@ -11,6 +11,23 @@ import XCTest
 
 class IdentifierTests: XCTestCase {
   
+  func testInvalidCIdentifier() {
+    // Given
+    let c = CIdentifier(rawValue: "c c")
+    
+    // Then
+    expect(c).to(beNil())
+  }
+  
+  func testValidCIdentifier() {
+    // Given
+    let c = CIdentifier(rawValue: "c")
+    
+    // Then
+    expect(c).toNot(beNil())
+    expect("\(c!)") == "c"
+  }
+  
   func testVariable() {
     // Given
     let o = OrderEntity(variable: "o")
@@ -43,12 +60,45 @@ class IdentifierTests: XCTestCase {
     expect("\(count)") == "quantity.@count"
   }
   
+  func testIndexLiteral() {
+    // Given
+    let i: Index = 3
+    
+    // Then
+    expect(i) == Index.index(3)
+  }
+  
   func testIndex() {
     // Given
     let order = OrderEntity()
     
     // Then
     expect("\(order.details[0])") == "details[0]"
+  }
+  
+  func testLastIndex() {
+    // Given
+    let order = OrderEntity()
+    
+    // Then
+    expect("\(order.details.qiLast)") == "details[LAST]"
+  }
+  
+  func testSize() {
+    // Given
+    let order = OrderEntity()
+    
+    // Then
+    expect("\(order.details.qiSize)") == "details[SIZE]"
+  }
+  
+  func testRandomVariable() {
+    // Given
+    let variable1 = Identifier<Int>.randomVariable()
+    let variable2 = Identifier<Int>.randomVariable()
+    
+    // Then
+    expect("\(variable1)") != "\(variable2)"
   }
   
 }

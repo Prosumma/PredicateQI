@@ -18,7 +18,7 @@ import Foundation
  let quantity = Identifier<Int>("quantity")
  ```
  
- In fact, since `Identifier` implements `ExpressiblyByStringLiteral`, an even shorter syntax is possible:
+ In fact, since `Identifier` implements `ExpressibleByStringLiteral`, an even shorter syntax is possible:
  
  ```swift
  let name: Identifier<String> = "name"
@@ -46,7 +46,7 @@ import Foundation
  Given this, it's easy to construct a predicate to query an array of products:
  
  ```swift
- products.filter { $0.count > 0 }
+ products.qiFilter { $0.count > 0 }
  ```
  
  Where `$0` is an instance of `ProductEntity`.

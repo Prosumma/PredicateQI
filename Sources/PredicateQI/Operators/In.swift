@@ -25,10 +25,6 @@ public extension Expression where Self: TypeComparable {
   }
 }
 
-public func ==<L: Expression & TypeComparable & Inconstant, R: Expression & TypeComparable, Expressions: Sequence>(_ lhs: L, _ rhs: Expressions) -> ComparisonPredicate where Expressions.Element == R, L.QIComparisonType == R.QIComparisonType {
-  `in`(lhs, rhs)
-}
-
 public func ==<L: Expression & TypeComparable & Inconstant, R: Expression & TypeComparable & Comparable, Expressions: Sequence>(_ lhs: L, _ rhs: Expressions) -> ComparisonPredicate where Expressions.Element == R, L.QIComparisonType == R.QIComparisonType {
   switch rhs {
   case let rhs as ClosedRange<R>:

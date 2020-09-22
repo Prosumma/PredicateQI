@@ -7,14 +7,10 @@
 
 import Foundation
 
-public enum Index {
+public enum Index: Equatable {
   case size
   case last
   case index(UInt)
-  
-  public static var first: Index {
-    .index(0)
-  }
 }
 
 extension Index: ExpressibleByIntegerLiteral {

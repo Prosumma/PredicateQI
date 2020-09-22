@@ -10,16 +10,7 @@ public enum IdentifierState {
   case variable(CIdentifier)
   case aggregate(Aggregate, parent: KeyPathExpression)
   case index(Index, parent: KeyPathExpression)
-      
-  public var parent: KeyPathExpression? {
-    switch self {
-    case let .identifier(_, parent: parent): return parent
-    case .variable: return nil
-    case let .aggregate(_, parent: parent): return parent
-    case let .index(_, parent: parent): return parent
-    }
-  }
-  
+        
   public var isVariable: Bool {
     switch self {
     case let .identifier(_, parent: parent): return parent?.qiState.isVariable ?? false

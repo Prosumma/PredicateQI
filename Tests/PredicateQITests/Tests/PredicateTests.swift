@@ -12,7 +12,7 @@ import XCTest
 class LogicalTests: BaseTestCase {
   func testOr() {
     // When
-    let smithsAndDoes = Self.customers.filter(Customer.qi.lastName == "Smith" || Customer.qi.lastName == "Doe")
+    let smithsAndDoes = Self.customers.qiFilter(Customer.qi.lastName == "Smith" || Customer.qi.lastName == "Doe")
     
     // Then
     expect(smithsAndDoes.count) == 3
@@ -29,7 +29,7 @@ class LogicalTests: BaseTestCase {
   func testSubquery() {
     // When
     let subquery = Order.qi.details.qiSubquery(variable: "d") { $0.quantity > 1 }.qiCount > 0
-    let multiQuantityOrders = Self.orders.filter(subquery)
+    let multiQuantityOrders = Self.orders.qiFilter(subquery)
     
     // Then
     expect(multiQuantityOrders.count) == 1
