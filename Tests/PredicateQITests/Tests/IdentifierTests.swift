@@ -36,12 +36,28 @@ class IdentifierTests: XCTestCase {
     expect("\(o.details.quantity)") == "$o.details.quantity"
   }
   
-  func testAggregate() {
+  func testMax() {
     // Given
     let o = OrderEntity()
     
     // Then
     expect("\(o.details.quantity.qiMax)") == "details.@max.quantity"
+  }
+  
+  func testMin() {
+    // Given
+    let o = OrderEntity()
+    
+    // Then
+    expect("\(o.details.product.price.qiMin)") == "details.product.@min.price"
+  }
+  
+  func testSum() {
+    // Given
+    let o = OrderEntity()
+    
+    // Then
+    expect("\(o.details.product.price.qiSum)") == "details.product.@sum.price"
   }
   
   func testSingle() {

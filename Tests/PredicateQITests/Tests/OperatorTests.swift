@@ -72,9 +72,11 @@ class OperatorTests: BaseTestCase {
   func testGreaterThan() {
     // When
     let expensive = Self.products.qiFilter { $0.price > 100 }
+    let cheap = Self.products.qiFilter { 100 > $0.price }
     
     // Then
     expect(expensive.count) == 0
+    expect(cheap.count) == 4
   }
   
   func testGreaterThanOrEqualTo() {
@@ -108,17 +110,21 @@ class OperatorTests: BaseTestCase {
   func testLessThan() {
     // When
     let cheapos = Self.products.qiFilter { $0.price < 2 }
+    let noncheapos = Self.products.qiFilter { 2 < $0.price }
     
     // Then
     expect(cheapos.count) == 3
+    expect(noncheapos.count) == 1
   }
   
   func testLessThanOrEqualTo() {
     // When
     let cheapos = Self.products.qiFilter(Product.qi.price <= 2)
+    let noncheapos = Self.products.qiFilter { 2 <= $0.price }
     
     // Then
     expect(cheapos.count) == 3
+    expect(noncheapos.count) == 1
   }
   
   func testLike() {
