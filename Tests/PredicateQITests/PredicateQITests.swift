@@ -44,14 +44,15 @@ final class PredicateQITests: XCTestCase {
     let zong = Zong()
     let watusis = [Watusi(zong: zong), Watusi(), Watusi(zong: Zong())]
     let w = Object<Watusi>()
-    let p = w.zong == zong.pqiObject
+    let p = w.zong == zong.pqiObject && any(w.zong.vimble[Int.self] == 2)
+    print(pred(p))
     print(watusis.filtered(using: p))
   }
 }
 
 @objcMembers
 final class Zong: NSObject {
-  let vimble: [Int] = [0, 2, 3]
+  let vimble: NSArray = [0, 2, 3]
 }
 
 @objcMembers

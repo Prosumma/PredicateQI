@@ -27,11 +27,19 @@ public struct Object<O: NSObject>: Expression, Variable {
     .init(pqiExpression ++ NSExpression(forKeyPath: keyPath))
   }
   
-  public subscript<V: NSObject, S: Sequence>(dynamicMember keyPath: KeyPath<O, S>) -> Object<V> where S.Element == V {
+  public subscript<V: NSObject>(dynamicMember keyPath: KeyPath<O, [V]>) -> Object<V> {
     .init(pqiExpression ++ NSExpression(forKeyPath: keyPath))
   }
   
-  public subscript<V: NSObject, S: Sequence>(dynamicMember keyPath: KeyPath<O, S?>) -> Object<V> where S.Element == V {
+  public subscript<V: NSObject>(dynamicMember keyPath: KeyPath<O, [V]?>) -> Object<V> {
+    .init(pqiExpression ++ NSExpression(forKeyPath: keyPath))
+  }
+  
+  public subscript<V: NSObject>(dynamicMember keyPath: KeyPath<O, Set<V>>) -> Object<V> {
+    .init(pqiExpression ++ NSExpression(forKeyPath: keyPath))
+  }
+  
+  public subscript<V: NSObject>(dynamicMember keyPath: KeyPath<O, Set<V>?>) -> Object<V> {
     .init(pqiExpression ++ NSExpression(forKeyPath: keyPath))
   }
   
@@ -39,7 +47,23 @@ public struct Object<O: NSObject>: Expression, Variable {
     .init(pqiExpression ++ NSExpression(forKeyPath: keyPath))
   }
   
-  public subscript<S: Sequence>(dynamicMember keyPath: KeyPath<O, S>) -> TypedExpression<NSNumber> where S.Element == NSNumber {
+  public subscript(dynamicMember keyPath: KeyPath<O, NSNumber?>) -> TypedExpression<NSNumber> {
+    .init(pqiExpression ++ NSExpression(forKeyPath: keyPath))
+  }
+  
+  public subscript(dynamicMember keyPath: KeyPath<O, [NSNumber]>) -> TypedExpression<NSNumber> {
+    .init(pqiExpression ++ NSExpression(forKeyPath: keyPath))
+  }
+  
+  public subscript(dynamicMember keyPath: KeyPath<O, [NSNumber]?>) -> TypedExpression<NSNumber> {
+    .init(pqiExpression ++ NSExpression(forKeyPath: keyPath))
+  }
+  
+  public subscript(dynamicMember keyPath: KeyPath<O, Set<NSNumber>>) -> TypedExpression<NSNumber> {
+    .init(pqiExpression ++ NSExpression(forKeyPath: keyPath))
+  }
+  
+  public subscript(dynamicMember keyPath: KeyPath<O, Set<NSNumber>?>) -> TypedExpression<NSNumber> {
     .init(pqiExpression ++ NSExpression(forKeyPath: keyPath))
   }
   
@@ -83,11 +107,11 @@ public struct Object<O: NSObject>: Expression, Variable {
     .init(pqiExpression)
   }
     
-  public func subquery(_ builder: (Object<O>) -> PredicateBuilder) -> Subquery {
+  public func subquery(_ builder: (Object<O>) -> PredicateBuilder) -> some Expression {
     assert(pqiExpression.expressionType != .evaluatedObject, "A subquery cannot be run directly on a root object.")
     let v = "v\(UUID().uuidString.prefix(8).lowercased())"
     let o = Object<O>(variable: v)
-    return .init(expression: pqiExpression, variable: v, builder: builder(o))
+    return NSExpression(forSubquery: pqiExpression, usingIteratorVariable: v, predicate: pred(builder(o)))
   }
   
   public func `where`(_ builder: (Object<O>) -> PredicateBuilder) -> PredicateBuilder {
