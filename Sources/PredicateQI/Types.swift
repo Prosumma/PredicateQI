@@ -33,3 +33,17 @@ extension Int16: ConstantExpression, TypeComparable {
 extension Int32: ConstantExpression, TypeComparable {
   public typealias PQIComparisonType = NSNumber
 }
+
+extension Double: ConstantExpression, TypeComparable {
+  public typealias PQIComparisonType = NSNumber
+}
+
+extension Array: Expression, ConstantExpression, TypeComparable where Element: TypeComparable {
+  public typealias PQIComparisonType = Element.PQIComparisonType
+}
+
+extension Set: Expression, ConstantExpression, TypeComparable where Element: TypeComparable {
+  public typealias PQIComparisonType = Element.PQIComparisonType
+}
+
+

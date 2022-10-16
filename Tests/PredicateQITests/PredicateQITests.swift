@@ -28,7 +28,9 @@ final class PredicateQITests: XCTestCase {
       try container.viewContext.save()
       
       let query = Object<House>()
-      let predicate = query.inhabitants.where { $0.age < 100 }
+      let predicate = query.inhabitants.where { $0.age > 1 }
+      let p = pred(predicate) as! NSComparisonPredicate
+      print(type(of: p.leftExpression))
       print(pred(predicate))
      
       let fetchRequest = NSFetchRequest<House>(entityName: "House")
@@ -37,5 +39,26 @@ final class PredicateQITests: XCTestCase {
       let houses = try container.viewContext.fetch(fetchRequest)
       print(houses)
     }
+  
+  func testFoo() throws {
+    let zong = Zong()
+    let watusis = [Watusi(zong: zong), Watusi(), Watusi(zong: Zong())]
+    let w = Object<Watusi>()
+    let p = w.zong == zong.pqiObject
+    print(watusis.filtered(using: p))
+  }
 }
 
+@objcMembers
+final class Zong: NSObject {
+  let vimble: [Int] = [0, 2, 3]
+}
+
+@objcMembers
+final class Watusi: NSObject {
+  let zong: Zong?
+  
+  init(zong: Zong? = nil) {
+    self.zong = zong
+  }
+}

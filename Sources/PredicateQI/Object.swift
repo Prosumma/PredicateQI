@@ -8,7 +8,7 @@
 import Foundation
 
 @dynamicMemberLookup
-public struct Object<O: NSObject>: Expression {
+public struct Object<O: NSObject>: Expression, Variable {
   public let pqiExpression: NSExpression
   
   public init(_ expression: NSExpression = NSExpression.expressionForEvaluatedObject()) {
@@ -51,11 +51,19 @@ public struct Object<O: NSObject>: Expression {
     .init(pqiExpression ++ NSExpression(forKeyPath: keyPath))
   }
   
-  public subscript<V: TypeComparable, S: Sequence>(dynamicMember keyPath: KeyPath<O, S>) -> TypedExpression<V> where S.Element == V {
+  public subscript<V: TypeComparable>(dynamicMember keyPath: KeyPath<O, [V]>) -> TypedExpression<V> {
     .init(pqiExpression ++ NSExpression(forKeyPath: keyPath))
   }
   
-  public subscript<V: TypeComparable, S: Sequence>(dynamicMember keyPath: KeyPath<O, S?>) -> TypedExpression<V> where S.Element == V {
+  public subscript<V: TypeComparable>(dynamicMember keyPath: KeyPath<O, [V]?>) -> TypedExpression<V> {
+    .init(pqiExpression ++ NSExpression(forKeyPath: keyPath))
+  }
+  
+  public subscript<V: TypeComparable>(dynamicMember keyPath: KeyPath<O, Set<V>>) -> TypedExpression<V> {
+    .init(pqiExpression ++ NSExpression(forKeyPath: keyPath))
+  }
+  
+  public subscript<V: TypeComparable>(dynamicMember keyPath: KeyPath<O, Set<V>?>) -> TypedExpression<V> {
     .init(pqiExpression ++ NSExpression(forKeyPath: keyPath))
   }
   
@@ -89,4 +97,8 @@ public struct Object<O: NSObject>: Expression {
   public func whereNot( builder: (Object<O>) -> PredicateBuilder) -> PredicateBuilder {
     subquery(builder).pqiCount == 0
   }
+}
+
+extension Object: TypeComparable {
+  public typealias PQIComparisonType = Pointer
 }
