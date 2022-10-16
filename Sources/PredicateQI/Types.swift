@@ -7,10 +7,29 @@
 
 import Foundation
 
-extension NSNumber: TypeComparable {}
-extension String: TypeComparable {}
-extension Bool: TypeComparable {}
+public protocol ConstantExpression: Expression {
+}
 
-extension Int: TypeComparable {
+public extension ConstantExpression {
+  var pqiExpression: NSExpression {
+    NSExpression(forConstantValue: self)
+  }
+}
+
+extension NSNumber: ConstantExpression, TypeComparable {}
+extension String: ConstantExpression, TypeComparable {}
+extension Bool: ConstantExpression, TypeComparable {}
+extension Data: ConstantExpression, TypeComparable {}
+extension Date: ConstantExpression, TypeComparable {}
+
+extension Int: ConstantExpression, TypeComparable {
+  public typealias PQIComparisonType = NSNumber
+}
+
+extension Int16: ConstantExpression, TypeComparable {
+  public typealias PQIComparisonType = NSNumber
+}
+
+extension Int32: ConstantExpression, TypeComparable {
   public typealias PQIComparisonType = NSNumber
 }

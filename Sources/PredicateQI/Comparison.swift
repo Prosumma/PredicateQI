@@ -33,6 +33,13 @@ public func equal<L, R>(_ lhs: L, to rhs: R) -> PredicateBuilder
   compare(lhs, .equalTo, rhs)
 }
 
+public func equal<L, R>(_ lhs: L, to rhs: R) -> PredicateBuilder
+  where L: Expression & AnyComparable,
+        R: Expression
+{
+  compare(lhs, .equalTo, rhs)
+}
+
 public func equal<L: Expression>(_ lhs: L, to rhs: Null) -> PredicateBuilder {
   compare(lhs, .equalTo, rhs)
 }
@@ -41,6 +48,13 @@ public func == <L, R>(lhs: L, rhs: R) -> PredicateBuilder
   where L: Expression & TypeComparable & Variable,
         R: Expression & TypeComparable,
         L.PQIComparisonType == R.PQIComparisonType
+{
+  equal(lhs, to: rhs)
+}
+
+public func == <L, R>(lhs: L, rhs: R) -> PredicateBuilder
+  where L: Expression & AnyComparable & Variable,
+        R: Expression
 {
   equal(lhs, to: rhs)
 }
@@ -57,6 +71,13 @@ public func notEqual<L, R>(_ lhs: L, to rhs: R) -> PredicateBuilder
   compare(lhs, .notEqualTo, rhs)
 }
 
+public func notEqual<L, R>(_ lhs: L, to rhs: R) -> PredicateBuilder
+  where L: Expression & AnyComparable,
+        R: Expression
+{
+  compare(lhs, .notEqualTo, rhs)
+}
+
 public func notEqual<L: Expression>(_ lhs: L, to rhs: Null) -> PredicateBuilder {
   compare(lhs, .notEqualTo, rhs)
 }
@@ -65,6 +86,13 @@ public func != <L, R>(lhs: L, rhs: R) -> PredicateBuilder
   where L: Expression & TypeComparable & Variable,
         R: Expression & TypeComparable,
         L.PQIComparisonType == R.PQIComparisonType
+{
+  notEqual(lhs, to: rhs)
+}
+
+public func != <L, R>(lhs: L, rhs: R) -> PredicateBuilder
+  where L: Expression & AnyComparable & Variable,
+        R: Expression
 {
   notEqual(lhs, to: rhs)
 }
@@ -81,6 +109,13 @@ public func greater<L, R>(_ lhs: L, than rhs: R) -> PredicateBuilder
   compare(lhs, .greaterThan, rhs)
 }
 
+public func greater<L, R>(_ lhs: L, than rhs: R) -> PredicateBuilder
+  where L: Expression & AnyComparable,
+        R: Expression
+{
+  compare(lhs, .greaterThan, rhs)
+}
+
 public func greater<L: Expression>(_ lhs: L, than rhs: Null) -> PredicateBuilder {
   compare(lhs, .greaterThan, rhs)
 }
@@ -89,6 +124,13 @@ public func > <L, R>(lhs: L, rhs: R) -> PredicateBuilder
   where L: Expression & TypeComparable & Variable,
         R: Expression & TypeComparable,
         L.PQIComparisonType == R.PQIComparisonType
+{
+  greater(lhs, than: rhs)
+}
+
+public func > <L, R>(lhs: L, rhs: R) -> PredicateBuilder
+  where L: Expression & AnyComparable & Variable,
+        R: Expression
 {
   greater(lhs, than: rhs)
 }
@@ -105,6 +147,13 @@ public func greaterThanOrEqual<L, R>(_ lhs: L, to rhs: R) -> PredicateBuilder
   compare(lhs, .greaterThanOrEqualTo, rhs)
 }
 
+public func greaterThanOrEqual<L, R>(_ lhs: L, to rhs: R) -> PredicateBuilder
+  where L: Expression & AnyComparable,
+        R: Expression
+{
+  compare(lhs, .greaterThanOrEqualTo, rhs)
+}
+
 public func greaterThanOrEqual<L: Expression>(_ lhs: L, to rhs: Null) -> PredicateBuilder {
   compare(lhs, .greaterThanOrEqualTo, rhs)
 }
@@ -113,6 +162,13 @@ public func >= <L, R>(lhs: L, rhs: R) -> PredicateBuilder
   where L: Expression & TypeComparable & Variable,
         R: Expression & TypeComparable,
         L.PQIComparisonType == R.PQIComparisonType
+{
+  greaterThanOrEqual(lhs, to: rhs)
+}
+
+public func >= <L, R>(lhs: L, rhs: R) -> PredicateBuilder
+  where L: Expression & AnyComparable & Variable,
+        R: Expression
 {
   greaterThanOrEqual(lhs, to: rhs)
 }
@@ -129,6 +185,13 @@ public func less<L, R>(_ lhs: L, than rhs: R) -> PredicateBuilder
   compare(lhs, .lessThan, rhs)
 }
 
+public func less<L, R>(_ lhs: L, than rhs: R) -> PredicateBuilder
+  where L: Expression & AnyComparable,
+        R: Expression
+{
+  compare(lhs, .lessThan, rhs)
+}
+
 public func less<L: Expression>(_ lhs: L, than rhs: Null) -> PredicateBuilder {
   compare(lhs, .lessThan, rhs)
 }
@@ -137,6 +200,13 @@ public func < <L, R>(lhs: L, rhs: R) -> PredicateBuilder
   where L: Expression & TypeComparable & Variable,
         R: Expression & TypeComparable,
         L.PQIComparisonType == R.PQIComparisonType
+{
+  less(lhs, than: rhs)
+}
+
+public func < <L, R>(lhs: L, rhs: R) -> PredicateBuilder
+  where L: Expression & AnyComparable & Variable,
+        R: Expression
 {
   less(lhs, than: rhs)
 }
@@ -153,6 +223,13 @@ public func lessThanOrEqual<L, R>(_ lhs: L, to rhs: R) -> PredicateBuilder
   compare(lhs, .lessThanOrEqualTo, rhs)
 }
 
+public func lessThanOrEqual<L, R>(_ lhs: L, to rhs: R) -> PredicateBuilder
+  where L: Expression & AnyComparable,
+        R: Expression
+{
+  compare(lhs, .lessThanOrEqualTo, rhs)
+}
+
 public func lessThanOrEqual<L: Expression>(_ lhs: L, to rhs: Null) -> PredicateBuilder {
   compare(lhs, .lessThanOrEqualTo, rhs)
 }
@@ -161,6 +238,13 @@ public func <= <L, R>(lhs: L, rhs: R) -> PredicateBuilder
   where L: Expression & TypeComparable & Variable,
         R: Expression & TypeComparable,
         L.PQIComparisonType == R.PQIComparisonType
+{
+  lessThanOrEqual(lhs, to: rhs)
+}
+
+public func <= <L, R>(lhs: L, rhs: R) -> PredicateBuilder
+  where L: Expression & AnyComparable & Variable,
+        R: Expression
 {
   lessThanOrEqual(lhs, to: rhs)
 }

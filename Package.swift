@@ -5,6 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "PredicateQI",
+    platforms: [.macOS(.v12)],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
@@ -24,6 +25,7 @@ let package = Package(
             exclude: ["Comparison.swift.gyb"]),
         .testTarget(
             name: "PredicateQITests",
-            dependencies: ["PredicateQI"]),
+            dependencies: ["PredicateQI"],
+            resources: [.copy("Houses.xcdatamodeld")]),
     ]
 )

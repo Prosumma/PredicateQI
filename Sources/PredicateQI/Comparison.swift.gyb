@@ -44,6 +44,13 @@ public func ${comparator[0]}<L, R>(_ lhs: L, ${comparator[1]} rhs: R) -> Predica
   compare(lhs, ${comparator[2]}, rhs)
 }
 
+public func ${comparator[0]}<L, R>(_ lhs: L, ${comparator[1]} rhs: R) -> PredicateBuilder
+  where L: Expression & AnyComparable,
+        R: Expression
+{
+  compare(lhs, ${comparator[2]}, rhs)
+}
+
 public func ${comparator[0]}<L: Expression>(_ lhs: L, ${comparator[1]} rhs: Null) -> PredicateBuilder {
   compare(lhs, ${comparator[2]}, rhs)
 }
@@ -52,6 +59,13 @@ public func ${comparator[3]} <L, R>(lhs: L, rhs: R) -> PredicateBuilder
   where L: Expression & TypeComparable & Variable,
         R: Expression & TypeComparable,
         L.PQIComparisonType == R.PQIComparisonType
+{
+  ${comparator[0]}(lhs, ${comparator[1]}: rhs)
+}
+
+public func ${comparator[3]} <L, R>(lhs: L, rhs: R) -> PredicateBuilder
+  where L: Expression & AnyComparable & Variable,
+        R: Expression
 {
   ${comparator[0]}(lhs, ${comparator[1]}: rhs)
 }

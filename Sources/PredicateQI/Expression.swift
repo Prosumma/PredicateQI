@@ -9,11 +9,10 @@ import Foundation
 
 public protocol Expression {
   var pqiExpression: NSExpression { get }
-  var pqiKeyPathRepresentation: String { get }
 }
 
 public extension Expression {
-  var pqiKeyPathRepresentation: String {
-    "\(pqiExpression)"
+  subscript<T: TypeComparable>(type: T.Type) -> TypedExpression<T> {
+    .init(pqiExpression)
   }
 }
