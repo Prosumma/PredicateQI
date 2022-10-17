@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Null: ExpressibleByNilLiteral, Expression {
+public struct Null: ExpressibleByNilLiteral, Expression, AnyComparable {
   public init(nilLiteral: ()) {}
   public let pqiExpression = NSExpression(forConstantValue: nil)
 }

@@ -11,7 +11,12 @@ comparators = [
   ("greater", "than", ".greaterThan", ">"),
   ("greaterThanOrEqual", "to", ".greaterThanOrEqualTo", ">="),
   ("less", "than", ".lessThan", "<"),
-  ("lessThanOrEqual", "to", ".lessThanOrEqualTo", "<=")
+  ("lessThanOrEqual", "to", ".lessThanOrEqualTo", "<="),
+  ("`in`", "_", ".in", "<~|"),
+  ("contains", "_", ".contains", "|~>"),
+  ("begins", "with", ".beginsWith", "<~%"),
+  ("ends", "with", ".endsWith", "%~>"),
+  ("like", "_", ".like", "%")
 ]
 }%
 
@@ -50,10 +55,13 @@ public func ${comparator[0]}<L, R>(_ lhs: L, ${comparator[1]} rhs: R) -> Predica
 {
   compare(lhs, ${comparator[2]}, rhs)
 }
+% if (comparator[0] in ["equal", "notEqual"]):
 
 public func ${comparator[0]}<L: Expression>(_ lhs: L, ${comparator[1]} rhs: Null) -> PredicateBuilder {
   compare(lhs, ${comparator[2]}, rhs)
 }
+% end
+% if comparator[3] is not None:
 
 public func ${comparator[3]} <L, R>(lhs: L, rhs: R) -> PredicateBuilder
   where L: Expression & TypeComparable & Variable,
@@ -69,8 +77,11 @@ public func ${comparator[3]} <L, R>(lhs: L, rhs: R) -> PredicateBuilder
 {
   ${comparator[0]}(lhs, ${comparator[1]}: rhs)
 }
+% if (comparator[0] in ["equal", "notEqual"]):
 
 public func ${comparator[3]} <L: Expression & Variable>(lhs: L, rhs: Null) -> PredicateBuilder {
   compare(lhs, ${comparator[2]}, rhs)
 }
+% end
+% end
 % end

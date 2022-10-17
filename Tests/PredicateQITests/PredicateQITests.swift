@@ -28,10 +28,9 @@ final class PredicateQITests: XCTestCase {
       try container.viewContext.save()
       
       let query = Object<House>()
-      let predicate = query.inhabitants.where { $0.age > 1 }
+      let predicate = query.inhabitants.where { $0.age > 1 && "el"^ <~| $0.name }
       let p = pred(predicate) as! NSComparisonPredicate
-      print(type(of: p.leftExpression))
-      print(pred(predicate))
+      print(p)
      
       let fetchRequest = NSFetchRequest<House>(entityName: "House")
       fetchRequest.predicate = pred(predicate)
@@ -44,7 +43,7 @@ final class PredicateQITests: XCTestCase {
     let zong = Zong()
     let watusis = [Watusi(zong: zong), Watusi(), Watusi(zong: Zong())]
     let w = Object<Watusi>()
-    let p = w.zong == zong.pqiObject && any(w.zong.vimble[Int.self] == 2)
+    let p = w.zong == *zong && any(w.zong.vimble <~| [2, 3])
     print(pred(p))
     print(watusis.filtered(using: p))
   }
@@ -52,7 +51,7 @@ final class PredicateQITests: XCTestCase {
 
 @objcMembers
 final class Zong: NSObject {
-  let vimble: NSArray = [0, 2, 3]
+  let vimble = [0, 2, 3]
 }
 
 @objcMembers
