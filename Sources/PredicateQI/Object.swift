@@ -108,7 +108,7 @@ public struct Object<O: NSObject>: Expression, Variable {
   }
     
   public func subquery(_ builder: (Object<O>) -> PredicateBuilder) -> some Expression {
-    assert(pqiExpression.expressionType != .evaluatedObject, "A subquery cannot be run directly on a root object.")
+    precondition(pqiExpression.expressionType != .evaluatedObject, "A subquery cannot be run directly on a root object.")
     let v = "v\(UUID().uuidString.prefix(8).lowercased())"
     let o = Object<O>(variable: v)
     return NSExpression(forSubquery: pqiExpression, usingIteratorVariable: v, predicate: pred(builder(o)))

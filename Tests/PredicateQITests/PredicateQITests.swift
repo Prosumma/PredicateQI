@@ -28,7 +28,7 @@ final class PredicateQITests: XCTestCase {
       try container.viewContext.save()
       
       let query = Object<House>()
-      let predicate = query.inhabitants.where { $0.age > 1 && "el"^ <~| $0.name }
+      let predicate = query.inhabitants.where { $0.age > 1 && $0.name |~> "el" }
       let p = pred(predicate) as! NSComparisonPredicate
       print(p)
      
