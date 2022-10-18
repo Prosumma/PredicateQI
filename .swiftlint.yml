@@ -9,3 +9,6 @@ opt_in_rules:
 indentation_width:
   indentation_width: 2
   include_comments: false
+
+excluded:
+  - .build
