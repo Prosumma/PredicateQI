@@ -5,6 +5,8 @@
 //  Created by Gregory Higley on 2022-10-14.
 //
 
+// swiftlint:disable opening_brace indentation_width
+
 import Foundation
 
 public func compare<L: Expression, R: Expression>(

@@ -14,31 +14,31 @@ final class PredicateQITests: XCTestCase {
       }
       let house = House(context: container.viewContext)
       house.address = "19110"
-      
+
       let greg = Person(context: container.viewContext)
       greg.name = "Greg"
       greg.age = 55
       greg.house = house
-      
+
       let belle = Person(context: container.viewContext)
       belle.name = "Belle"
       belle.age = 9
       belle.house = house
-      
+
       try container.viewContext.save()
-      
+
       let query = Object<House>()
       let predicate = query.inhabitants.where { $0.age > 1 && $0.name |~> "el" }
       let p = pred(predicate) as! NSComparisonPredicate
       print(p)
-     
+
       let fetchRequest = NSFetchRequest<House>(entityName: "House")
       fetchRequest.predicate = pred(predicate)
-      
+
       let houses = try container.viewContext.fetch(fetchRequest)
       print(houses)
     }
-  
+
   func testFoo() throws {
     let zong = Zong()
     let watusis = [Watusi(zong: zong), Watusi(), Watusi(zong: Zong())]
@@ -57,7 +57,7 @@ final class Zong: NSObject {
 @objcMembers
 final class Watusi: NSObject {
   let zong: Zong?
-  
+
   init(zong: Zong? = nil) {
     self.zong = zong
   }

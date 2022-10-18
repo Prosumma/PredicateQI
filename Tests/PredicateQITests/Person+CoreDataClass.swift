@@ -11,5 +11,7 @@ import CoreData
 
 @objc(Person)
 public class Person: NSManagedObject {
-
+  @NSManaged public var name: String
+  @NSManaged public var age: Int16
+  @NSManaged public var house: House?
 }

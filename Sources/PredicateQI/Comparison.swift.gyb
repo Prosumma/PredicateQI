@@ -20,6 +20,8 @@ comparators = [
 ]
 }%
 
+// swiftlint:disable opening_brace indentation_width
+
 import Foundation
 
 public func compare<L: Expression, R: Expression>(

@@ -1,0 +1,11 @@
+disabled_rules:
+  - identifier_name
+  - line_length
+  - todo
+  - xctfail_message
+opt_in_rules:
+  - indentation_width
+
+indentation_width:
+  indentation_width: 2
+  include_comments: false

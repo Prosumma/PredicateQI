@@ -7,8 +7,7 @@
 
 import Foundation
 
-public protocol ConstantExpression: Expression {
-}
+public protocol ConstantExpression: Expression {}
 
 public extension ConstantExpression {
   var pqiExpression: NSExpression {
@@ -45,5 +44,3 @@ extension Array: Expression, ConstantExpression, TypeComparable where Element: T
 extension Set: Expression, ConstantExpression, TypeComparable where Element: TypeComparable {
   public typealias PQIComparisonType = Element.PQIComparisonType
 }
-
-

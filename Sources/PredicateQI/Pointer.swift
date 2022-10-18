@@ -9,7 +9,7 @@ import Foundation
 
 public struct Pointer: Expression, TypeComparable {
   public let pqiExpression: NSExpression
-  
+
   public init(to object: NSObject) {
     pqiExpression = NSExpression(forConstantValue: object)
   }

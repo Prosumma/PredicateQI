@@ -11,7 +11,7 @@ public protocol Variable {}
 
 public struct VariableExpression<E: Expression>: Expression, Variable {
   public let pqiExpression: NSExpression
-  
+
   public init(_ expression: E) {
     pqiExpression = expression.pqiExpression
   }
