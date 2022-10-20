@@ -1,3 +1,3 @@
 # PredicateQI
 
-A description of this package.
+PredicateQI (PQI) is a 

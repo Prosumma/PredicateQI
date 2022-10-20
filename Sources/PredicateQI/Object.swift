@@ -103,10 +103,6 @@ public struct Object<O: NSObject>: Expression, Variable {
     .init(pqiExpression ++ size)
   }
 
-  public subscript<T: NSObject>(type: T.Type) -> Object<T> {
-    .init(pqiExpression)
-  }
-
   public func subquery(_ builder: (Object<O>) -> PredicateBuilder) -> some Expression {
     precondition(pqiExpression.expressionType != .evaluatedObject, "A subquery cannot be run directly on a root object.")
     let v = "v\(UUID().uuidString.prefix(8).lowercased())"
