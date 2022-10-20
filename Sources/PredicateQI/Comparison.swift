@@ -372,3 +372,37 @@ public func % <L, R>(lhs: L, rhs: R) -> PredicateBuilder
 {
   like(lhs, _: rhs)
 }
+
+public func matches<L, R>(_ lhs: L, _ rhs: R) -> PredicateBuilder
+  where L: Expression & TypeComparable,
+        R: Expression & TypeComparable,
+        L.PQIComparisonType == String,
+        R.PQIComparisonType == String
+{
+  compare(lhs, .matches, rhs)
+}
+
+public func matches<L, R>(_ lhs: L, _ rhs: R) -> PredicateBuilder
+  where L: Expression & AnyComparable,
+        R: Expression & TypeComparable,
+        R.PQIComparisonType == String
+{
+  compare(lhs, .matches, rhs)
+}
+
+public func like<L, R>(_ lhs: L, _ rhs: R) -> PredicateBuilder
+  where L: Expression & TypeComparable,
+        R: Expression & TypeComparable,
+        L.PQIComparisonType == String,
+        R.PQIComparisonType == String
+{
+  compare(lhs, .like, rhs)
+}
+
+public func like<L, R>(_ lhs: L, _ rhs: R) -> PredicateBuilder
+  where L: Expression & AnyComparable,
+        R: Expression & TypeComparable,
+        R.PQIComparisonType == String
+{
+  compare(lhs, .like, rhs)
+}
