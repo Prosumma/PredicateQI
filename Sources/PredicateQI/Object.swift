@@ -8,7 +8,7 @@
 import Foundation
 
 @dynamicMemberLookup
-public struct Object<O: NSObject>: Expression, Variable {
+public struct Object<O: AnyObject>: Expression, Variable {
   public let pqiExpression: NSExpression
   
   public init(_ expression: NSExpression = NSExpression.expressionForEvaluatedObject()) {
@@ -31,51 +31,51 @@ public struct Object<O: NSObject>: Expression, Variable {
     .init(pqiExpression ++ size)
   }
   
-  public subscript<V: NSObject>(dynamicMember keyPath: KeyPath<O, V>) -> Object<V> {
+  public subscript<V: AnyObject>(dynamicMember keyPath: KeyPath<O, V>) -> Object<V> {
     .init(pqiExpression ++ NSExpression(forKeyPath: keyPath))
   }
 
-  public subscript<V: NSObject>(dynamicMember keyPath: KeyPath<O, V?>) -> Object<V> {
+  public subscript<V: AnyObject>(dynamicMember keyPath: KeyPath<O, V?>) -> Object<V> {
     .init(pqiExpression ++ NSExpression(forKeyPath: keyPath))
   }
   
-  public subscript<V: NSObject>(dynamicMember keyPath: KeyPath<O, [V]>) -> Object<V> {
+  public subscript<V: AnyObject>(dynamicMember keyPath: KeyPath<O, [V]>) -> Object<V> {
     .init(pqiExpression ++ NSExpression(forKeyPath: keyPath))
   }
   
-  public subscript<V: NSObject>(dynamicMember keyPath: KeyPath<O, [V]?>) -> Object<V> {
+  public subscript<V: AnyObject>(dynamicMember keyPath: KeyPath<O, [V]?>) -> Object<V> {
     .init(pqiExpression ++ NSExpression(forKeyPath: keyPath))
   }
   
-  public subscript<V: NSObject>(dynamicMember keyPath: KeyPath<O, Set<V>>) -> Object<V> {
+  public subscript<V: AnyObject>(dynamicMember keyPath: KeyPath<O, Set<V>>) -> Object<V> {
     .init(pqiExpression ++ NSExpression(forKeyPath: keyPath))
   }
   
-  public subscript<V: NSObject>(dynamicMember keyPath: KeyPath<O, Set<V>?>) -> Object<V> {
+  public subscript<V: AnyObject>(dynamicMember keyPath: KeyPath<O, Set<V>?>) -> Object<V> {
     .init(pqiExpression ++ NSExpression(forKeyPath: keyPath))
   }
   
-  public subscript<V: NSObject & TypeComparable>(dynamicMember keyPath: KeyPath<O, V>) -> Object<V> {
+  public subscript<V: AnyObject & TypeComparable>(dynamicMember keyPath: KeyPath<O, V>) -> Object<V> {
     .init(pqiExpression ++ NSExpression(forKeyPath: keyPath))
   }
 
-  public subscript<V: NSObject & TypeComparable>(dynamicMember keyPath: KeyPath<O, V?>) -> Object<V> {
+  public subscript<V: AnyObject & TypeComparable>(dynamicMember keyPath: KeyPath<O, V?>) -> Object<V> {
     .init(pqiExpression ++ NSExpression(forKeyPath: keyPath))
   }
   
-  public subscript<V: NSObject & TypeComparable>(dynamicMember keyPath: KeyPath<O, [V]>) -> Object<V> {
+  public subscript<V: AnyObject & TypeComparable>(dynamicMember keyPath: KeyPath<O, [V]>) -> Object<V> {
     .init(pqiExpression ++ NSExpression(forKeyPath: keyPath))
   }
   
-  public subscript<V: NSObject & TypeComparable>(dynamicMember keyPath: KeyPath<O, [V]?>) -> Object<V> {
+  public subscript<V: AnyObject & TypeComparable>(dynamicMember keyPath: KeyPath<O, [V]?>) -> Object<V> {
     .init(pqiExpression ++ NSExpression(forKeyPath: keyPath))
   }
   
-  public subscript<V: NSObject & TypeComparable>(dynamicMember keyPath: KeyPath<O, Set<V>>) -> Object<V> {
+  public subscript<V: AnyObject & TypeComparable>(dynamicMember keyPath: KeyPath<O, Set<V>>) -> Object<V> {
     .init(pqiExpression ++ NSExpression(forKeyPath: keyPath))
   }
   
-  public subscript<V: NSObject & TypeComparable>(dynamicMember keyPath: KeyPath<O, Set<V>?>) -> Object<V> {
+  public subscript<V: AnyObject & TypeComparable>(dynamicMember keyPath: KeyPath<O, Set<V>?>) -> Object<V> {
     .init(pqiExpression ++ NSExpression(forKeyPath: keyPath))
   }
   
@@ -103,27 +103,27 @@ public struct Object<O: NSObject>: Expression, Variable {
     .init(pqiExpression ++ NSExpression(forKeyPath: keyPath))
   }
   
-  public subscript<V: NSObject & TypeComparable & ScalarComparable>(dynamicMember keyPath: KeyPath<O, V>) -> TypedExpression<V> {
+  public subscript<V: AnyObject & TypeComparable & ScalarComparable>(dynamicMember keyPath: KeyPath<O, V>) -> TypedExpression<V> {
     .init(pqiExpression ++ NSExpression(forKeyPath: keyPath))
   }
 
-  public subscript<V: NSObject & TypeComparable & ScalarComparable>(dynamicMember keyPath: KeyPath<O, V?>) -> TypedExpression<V> {
+  public subscript<V: AnyObject & TypeComparable & ScalarComparable>(dynamicMember keyPath: KeyPath<O, V?>) -> TypedExpression<V> {
     .init(pqiExpression ++ NSExpression(forKeyPath: keyPath))
   }
   
-  public subscript<V: NSObject & TypeComparable & ScalarComparable>(dynamicMember keyPath: KeyPath<O, [V]>) -> TypedExpression<V> {
+  public subscript<V: AnyObject & TypeComparable & ScalarComparable>(dynamicMember keyPath: KeyPath<O, [V]>) -> TypedExpression<V> {
     .init(pqiExpression ++ NSExpression(forKeyPath: keyPath))
   }
   
-  public subscript<V: NSObject & TypeComparable & ScalarComparable>(dynamicMember keyPath: KeyPath<O, [V]?>) -> TypedExpression<V> {
+  public subscript<V: AnyObject & TypeComparable & ScalarComparable>(dynamicMember keyPath: KeyPath<O, [V]?>) -> TypedExpression<V> {
     .init(pqiExpression ++ NSExpression(forKeyPath: keyPath))
   }
   
-  public subscript<V: NSObject & TypeComparable & ScalarComparable>(dynamicMember keyPath: KeyPath<O, Set<V>>) -> TypedExpression<V> {
+  public subscript<V: AnyObject & TypeComparable & ScalarComparable>(dynamicMember keyPath: KeyPath<O, Set<V>>) -> TypedExpression<V> {
     .init(pqiExpression ++ NSExpression(forKeyPath: keyPath))
   }
   
-  public subscript<V: NSObject & TypeComparable & ScalarComparable>(dynamicMember keyPath: KeyPath<O, Set<V>?>) -> TypedExpression<V> {
+  public subscript<V: AnyObject & TypeComparable & ScalarComparable>(dynamicMember keyPath: KeyPath<O, Set<V>?>) -> TypedExpression<V> {
     .init(pqiExpression ++ NSExpression(forKeyPath: keyPath))
   }
 
@@ -148,9 +148,9 @@ extension Object: TypeComparable {
 }
 
 /**
- A marker protocol which forces an `NSObject` subclass
+ A marker protocol which forces an `AnyObject` subclass
  to be treated as a scalar instead of an object when
  resolving keypaths in `Object<O>`.
  */
-public protocol ScalarComparable {}
+public protocol ScalarComparable: AnyObject {}
 extension NSNumber: ScalarComparable {}
