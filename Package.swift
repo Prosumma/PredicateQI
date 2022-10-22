@@ -17,7 +17,7 @@ let package = Package(
     .target(
       name: "PredicateQI",
       dependencies: [],
-      exclude: ["Comparison.swift.gyb"]
+      exclude: ["Comparison.swift.gyb", "Object.swift.gyb"]
     ),
     .testTarget(
       name: "PredicateQITests",

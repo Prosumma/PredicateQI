@@ -41,6 +41,8 @@ final class PredicateQITests: XCTestCase {
 
   func testFoo() throws {
     let zong = Zong()
+    let z = Object<Zong>()
+    let q = z.i
     let watusis = [Watusi(zong: zong), Watusi(), Watusi(zong: Zong())]
     let w = Object<Watusi>()
     let p = w.zong == *zong && any(w.zong.vimble <~| [2, 3])
@@ -49,9 +51,17 @@ final class PredicateQITests: XCTestCase {
   }
 }
 
+extension NSManagedObjectID: TypeComparable, ScalarComparable {}
+extension NSManagedObject: TypeComparable {
+  public typealias PQIComparisonType = NSManagedObjectID
+}
+
 @objcMembers
 final class Zong: NSObject {
   let vimble = [0, 2, 3]
+  let k: NSNumber? = nil
+  let m: NSManagedObject? = nil
+  let i: NSManagedObjectID? = nil
 }
 
 @objcMembers
