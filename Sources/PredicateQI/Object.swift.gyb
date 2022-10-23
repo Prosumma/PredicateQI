@@ -6,18 +6,22 @@
 //
 %{
 types = [
-  ("AnyObject", "Object<V>"),
-  ("AnyObject & TypeComparable", "Object<V>"),
+  ("NSObject", "Object<V>"),
+  ("NSObject & TypeComparable", "Object<V>"),
   ("TypeComparable", "TypedExpression<V>"),
-  ("AnyObject & TypeComparable & ScalarComparable", "TypedExpression<V>")
+  ("NSObject & TypeComparable & ScalarComparable", "TypedExpression<V>")
 ]
 }%
 
 import Foundation
 
 @dynamicMemberLookup
-public struct Object<O: AnyObject>: Expression, Variable {
+public struct Object<O: NSObject>: Expression, Variable {
   public let pqiExpression: NSExpression
+  
+  public var pqiSum: Object<O> {
+    .init(pqiExpression ++ "@sum")
+  }
   
   public init(_ expression: NSExpression = NSExpression.expressionForEvaluatedObject()) {
     pqiExpression = expression
@@ -86,9 +90,9 @@ extension Object: TypeComparable {
 }
 
 /**
- A marker protocol which forces an `AnyObject` subclass
+ A marker protocol which forces an `NSObject` subclass
  to be treated as a scalar instead of an object when
  resolving keypaths in `Object<O>`.
  */
-public protocol ScalarComparable: AnyObject {}
+public protocol ScalarComparable: NSObject {}
 extension NSNumber: ScalarComparable {}

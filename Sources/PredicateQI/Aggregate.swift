@@ -15,10 +15,4 @@ public extension Expression {
 
 public let pqiCount = TypedExpression<NSNumber>(format: "@count")
 
-public extension Expression {
-  var pqiSum: TypedExpression<NSNumber> {
-    return (pqiExpression ++ "@sum")[NSNumber.self]
-  }
-}
-
 public let pqiSum = TypedExpression<NSNumber>(format: "@sum")

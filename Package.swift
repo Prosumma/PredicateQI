@@ -21,8 +21,7 @@ let package = Package(
     ),
     .testTarget(
       name: "PredicateQITests",
-      dependencies: ["PredicateQI"],
-      resources: [.copy("Houses.xcdatamodeld")]
+      dependencies: ["PredicateQI"]
     )
   ]
 )

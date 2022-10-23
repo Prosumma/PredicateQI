@@ -12,16 +12,16 @@ public protocol Expression {
 }
 
 public extension Expression {
-  subscript<T: AnyObject>(type: T.Type) -> Object<T> {
+  subscript<T: NSObject>(type: T.Type) -> Object<T> {
     .init(pqiExpression)
   }
-  subscript<T: AnyObject & TypeComparable>(type: T.Type) -> Object<T> {
+  subscript<T: NSObject & TypeComparable>(type: T.Type) -> Object<T> {
     .init(pqiExpression)
   }
   subscript<T: TypeComparable>(type: T.Type) -> TypedExpression<T> {
     .init(pqiExpression)
   }
-  subscript<T: AnyObject & TypeComparable & ScalarComparable>(type: T.Type) -> TypedExpression<T> {
+  subscript<T: NSObject & TypeComparable & ScalarComparable>(type: T.Type) -> TypedExpression<T> {
     .init(pqiExpression)
   }
 }

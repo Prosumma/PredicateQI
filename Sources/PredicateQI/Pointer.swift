@@ -10,11 +10,17 @@ import Foundation
 public struct Pointer: Expression, TypeComparable {
   public let pqiExpression: NSExpression
 
-  public init(to object: AnyObject) {
+  public init(to object: NSObject) {
     pqiExpression = NSExpression(forConstantValue: object)
   }
 }
 
-public prefix func * (object: AnyObject) -> Pointer {
-  Pointer(to: object)
+public extension NSObject {
+  var pqiPointer: Pointer {
+    Pointer(to: self)
+  }
+}
+
+public prefix func * (object: NSObject) -> Pointer {
+  object.pqiPointer
 }
