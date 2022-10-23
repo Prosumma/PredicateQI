@@ -105,19 +105,62 @@ public func matches<L, R>(_ lhs: L, _ rhs: R) -> PredicateBuilder
   compare(lhs, .matches, rhs)
 }
 
-public func like<L, R>(_ lhs: L, _ rhs: R) -> PredicateBuilder
+public func between<L, R>(_ lhs: L, _ rhs: (R, R)) -> PredicateBuilder
   where L: Expression & TypeComparable,
         R: Expression & TypeComparable,
-        L.PQIComparisonType == String,
-        R.PQIComparisonType == String
+        L.PQIComparisonType == R.PQIComparisonType
 {
-  compare(lhs, .like, rhs)
+  return compare(lhs, .between, NSExpression(forAggregate: [rhs.0.pqiExpression, rhs.1.pqiExpression]))
 }
 
-public func like<L, R>(_ lhs: L, _ rhs: R) -> PredicateBuilder
+public func between<L, R>(_ lhs: L, _ rhs: (R, R)) -> PredicateBuilder
   where L: Expression & AnyComparable,
-        R: Expression & TypeComparable,
-        R.PQIComparisonType == String
+        R: Expression & TypeComparable
 {
-  compare(lhs, .like, rhs)
+  return compare(lhs, .between, NSExpression(forAggregate: [rhs.0.pqiExpression, rhs.1.pqiExpression]))
+}
+
+public func between<L, R>(_ lhs: L, _ rhs: ClosedRange<R>) -> PredicateBuilder
+  where L: Expression & TypeComparable,
+        R: Expression & TypeComparable,
+        L.PQIComparisonType == R.PQIComparisonType
+{
+  return compare(lhs, .between, NSExpression(forAggregate: [rhs.lowerBound.pqiExpression, rhs.upperBound.pqiExpression]))
+}
+
+public func between<L, R>(_ lhs: L, _ rhs: ClosedRange<R>) -> PredicateBuilder
+  where L: Expression & AnyComparable,
+        R: Expression & TypeComparable
+{
+  return compare(lhs, .between, NSExpression(forAggregate: [rhs.lowerBound.pqiExpression, rhs.upperBound.pqiExpression]))
+}
+
+public func <|> <L, R>(lhs: L, rhs: (R, R)) -> PredicateBuilder
+  where L: Expression & TypeComparable & Variable,
+        R: Expression & TypeComparable,
+        L.PQIComparisonType == R.PQIComparisonType
+{
+  between(lhs, rhs)
+}
+
+public func <|> <L, R>(lhs: L, rhs: (R, R)) -> PredicateBuilder
+  where L: Expression & AnyComparable & Variable,
+        R: Expression & TypeComparable
+{
+  between(lhs, rhs)
+}
+
+public func <|> <L, R>(lhs: L, rhs: ClosedRange<R>) -> PredicateBuilder
+  where L: Expression & TypeComparable & Variable,
+        R: Expression & TypeComparable,
+        L.PQIComparisonType == R.PQIComparisonType
+{
+  between(lhs, rhs)
+}
+
+public func <|> <L, R>(lhs: L, rhs: ClosedRange<R>) -> PredicateBuilder
+  where L: Expression & AnyComparable & Variable,
+        R: Expression & TypeComparable
+{
+  between(lhs, rhs)
 }
