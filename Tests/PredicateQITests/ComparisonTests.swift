@@ -9,28 +9,64 @@ import PredicateQI
 import XCTest
 
 final class ComparisonTests: XCTestCase {
-  func testContains() {
-    let house = Object<House>()
-    let houses = Store.houses.filtered(using: house.address |~> "Nowhere")
+  override class func setUp() {
+    super.setUp()
+    PredicateQIConfiguration.logPredicatesToConsole = true
+  }
+  
+  func testEqual() {
+    let houses = Store.houses.pqiFilter { $0 == *Store.houses[0] }
     XCTAssertEqual(houses.count, 1)
   }
   
-  func testCount() {
-    let house = Object<House>()
-    let p = house.inhabitants.pqiCount > 0
-    let houses = Store.houses.filtered(using: p)
+  func testEqualNil() {
+    let houses = Store.houses.pqiFilter { $0.address == nil }
+    XCTAssertEqual(houses.count, 1)
+  }
+  
+  func testNotEqual() {
+    let houses = Store.houses.pqiFilter { all($0.inhabitants[Person.self].lastName != "Kubrick") }
+    XCTAssertEqual(houses.count, 3)
+  }
+  
+  func testNotEqualNil() {
+    let houses = Store.houses.pqiFilter { $0.address != nil }
     XCTAssertEqual(houses.count, 2)
   }
   
+  func testContains() {
+    let houses = Store.houses.pqiFilter { $0.address |~> "Nowhere" }
+    XCTAssertEqual(houses.count, 1)
+  }
+  
+  func testIn() {
+    let houses = Store.houses.pqiFilter { "Nowhere"^ <~| $0.address }
+    XCTAssertEqual(houses.count, 1)
+  }
+  
+  func testLessThan() {
+    let houses = Store.houses.pqiFilter { $0.inhabitants.pqiCount < 10 }
+    XCTAssertEqual(houses.count, 3)
+  }
+  
+  func testLessThanOrEqualTo() {
+    let houses = Store.houses.pqiFilter { $0.inhabitants[Person.self].pqiMin.age <= 10 }
+    XCTAssertEqual(houses.count, 1)
+  }
+  
   func testGreaterThan() {
-    let house = Object<House>()
-    let p = house.inhabitants[Person.self].pqiSum.age > 20
-    print(pred(p))
-    let houses = Store.houses.filtered(using: p)
+    let houseSet = Set(Store.houses)
+    let houses = houseSet.pqiFilter { $0.inhabitants[Person.self].pqiSum.age > 20 }
     XCTAssertEqual(houses.count, 2)
   }
-}
-
-class Watusi {
-  @objc var foo: String?
+  
+  func testGreaterThanOrEqualTo() {
+    let houses = Store.houses.pqiFilter { $0.inhabitants[Person.self].pqiCount >= 2 }
+    XCTAssertEqual(houses.count, 1)
+  }
+  
+  func testBetween() {
+    let houses = Store.houses.pqiFilter { any($0.inhabitants[Person.self].age <|> 7...11) }
+    XCTAssertEqual(houses.count, 1)
+  }
 }

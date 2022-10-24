@@ -7,18 +7,27 @@
 
 import Foundation
 
-public extension Array {
-  func filtered(using builder: PredicateBuilder) -> [Element] {
-    let this = self as NSArray
-    // swiftlint:disable:next force_cast
-    return this.filtered(using: pred(builder)) as! [Element]
+public protocol Filter: Sequence where Element: NSObject {
+  func pqiFilter(_ predicate: NSPredicate) -> Self
+}
+
+public extension Filter {
+  func pqiFilter(_ builder: PredicateBuilder) -> Self {
+    pqiFilter(pred(builder))
+  }
+  func pqiFilter(_ builder: (Object<Element>) -> PredicateBuilder) -> Self {
+    pqiFilter(builder(.init()))
   }
 }
 
-public extension Set {
-  func filtered(using builder: PredicateBuilder) -> Set<Element> {
-    let this = self as NSSet
-    // swiftlint:disable:next force_cast
-    return this.filtered(using: pred(builder)) as! Set<Element>
+extension Array: Filter where Element: NSObject {
+  public func pqiFilter(_ predicate: NSPredicate) -> [Element] {
+    filter(predicate.evaluate(with:))
+  }
+}
+
+extension Set: Filter where Element: NSObject {
+  public func pqiFilter(_ predicate: NSPredicate) -> Set<Element> {
+    filter(predicate.evaluate(with:))
   }
 }

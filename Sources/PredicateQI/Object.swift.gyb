@@ -22,11 +22,23 @@ public struct Object<O: NSObject>: Expression, Variable {
   public var pqiSum: Object<O> {
     .init(pqiExpression ++ "@sum")
   }
-  
+
+  public var pqiAvg: Object<O> {
+    .init(pqiExpression ++ "@avg")
+  }
+
+  public var pqiMax: Object<O> {
+    .init(pqiExpression ++ "@max")
+  }
+
+  public var pqiMin: Object<O> {
+    .init(pqiExpression ++ "@max")
+  }
+
   public init(_ expression: NSExpression = NSExpression.expressionForEvaluatedObject()) {
     pqiExpression = expression
   }
-  
+
   public init(variable: String) {
     self.init(NSExpression(forVariable: variable))
   }

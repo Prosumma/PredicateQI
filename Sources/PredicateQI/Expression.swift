@@ -13,15 +13,15 @@ public protocol Expression {
 
 public extension Expression {
   subscript<T: NSObject>(type: T.Type) -> Object<T> {
-    .init(pqiExpression)
+    cast(self, to: type)
   }
   subscript<T: NSObject & TypeComparable>(type: T.Type) -> Object<T> {
-    .init(pqiExpression)
+    cast(self, to: type)
   }
   subscript<T: TypeComparable>(type: T.Type) -> TypedExpression<T> {
-    .init(pqiExpression)
+    cast(self, to: type)
   }
   subscript<T: NSObject & TypeComparable & ScalarComparable>(type: T.Type) -> TypedExpression<T> {
-    .init(pqiExpression)
+    cast(self, to: type)
   }
 }
