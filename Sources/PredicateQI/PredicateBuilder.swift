@@ -53,3 +53,9 @@ public func di(_ builder: @escaping PredicateBuilder) -> PredicateBuilder {
     return builder(context)
   }
 }
+
+public func un(_ builder: @escaping PredicateBuilder) -> PredicateBuilder {
+  return { _ in
+    builder(PredicateContext())
+  }
+}
