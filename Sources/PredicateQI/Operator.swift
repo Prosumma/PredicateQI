@@ -12,5 +12,7 @@ infix operator |~>: ComparisonPrecedence
 infix operator <~%: ComparisonPrecedence
 infix operator %~>: ComparisonPrecedence
 infix operator <|>: ComparisonPrecedence
+infix operator  %*: ComparisonPrecedence
+infix operator  %~: ComparisonPrecedence
 prefix operator *
 postfix operator ^

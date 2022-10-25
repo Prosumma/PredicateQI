@@ -286,6 +286,7 @@ public func |~> <L, R>(lhs: L, rhs: R) -> PredicateBuilder
 public func begins<L, R>(_ lhs: L, with rhs: R) -> PredicateBuilder
   where L: Expression & TypeComparable,
         R: Expression & TypeComparable,
+        L.PQIComparisonType == String,
         L.PQIComparisonType == R.PQIComparisonType
 {
   compare(lhs, .beginsWith, rhs)
@@ -301,6 +302,7 @@ public func begins<L, R>(_ lhs: L, with rhs: R) -> PredicateBuilder
 public func <~% <L, R>(lhs: L, rhs: R) -> PredicateBuilder
   where L: Expression & TypeComparable & Variable,
         R: Expression & TypeComparable,
+        L.PQIComparisonType == String,
         L.PQIComparisonType == R.PQIComparisonType
 {
   begins(lhs, with: rhs)
@@ -316,6 +318,7 @@ public func <~% <L, R>(lhs: L, rhs: R) -> PredicateBuilder
 public func ends<L, R>(_ lhs: L, with rhs: R) -> PredicateBuilder
   where L: Expression & TypeComparable,
         R: Expression & TypeComparable,
+        L.PQIComparisonType == String,
         L.PQIComparisonType == R.PQIComparisonType
 {
   compare(lhs, .endsWith, rhs)
@@ -331,6 +334,7 @@ public func ends<L, R>(_ lhs: L, with rhs: R) -> PredicateBuilder
 public func %~> <L, R>(lhs: L, rhs: R) -> PredicateBuilder
   where L: Expression & TypeComparable & Variable,
         R: Expression & TypeComparable,
+        L.PQIComparisonType == String,
         L.PQIComparisonType == R.PQIComparisonType
 {
   ends(lhs, with: rhs)
@@ -346,6 +350,7 @@ public func %~> <L, R>(lhs: L, rhs: R) -> PredicateBuilder
 public func like<L, R>(_ lhs: L, _ rhs: R) -> PredicateBuilder
   where L: Expression & TypeComparable,
         R: Expression & TypeComparable,
+        L.PQIComparisonType == String,
         L.PQIComparisonType == R.PQIComparisonType
 {
   compare(lhs, .like, rhs)
@@ -358,15 +363,16 @@ public func like<L, R>(_ lhs: L, _ rhs: R) -> PredicateBuilder
   compare(lhs, .like, rhs)
 }
 
-public func % <L, R>(lhs: L, rhs: R) -> PredicateBuilder
+public func %* <L, R>(lhs: L, rhs: R) -> PredicateBuilder
   where L: Expression & TypeComparable & Variable,
         R: Expression & TypeComparable,
+        L.PQIComparisonType == String,
         L.PQIComparisonType == R.PQIComparisonType
 {
   like(lhs, _: rhs)
 }
 
-public func % <L, R>(lhs: L, rhs: R) -> PredicateBuilder
+public func %* <L, R>(lhs: L, rhs: R) -> PredicateBuilder
   where L: Expression & AnyComparable & Variable,
         R: Expression
 {
@@ -377,17 +383,32 @@ public func matches<L, R>(_ lhs: L, _ rhs: R) -> PredicateBuilder
   where L: Expression & TypeComparable,
         R: Expression & TypeComparable,
         L.PQIComparisonType == String,
-        R.PQIComparisonType == String
+        L.PQIComparisonType == R.PQIComparisonType
 {
   compare(lhs, .matches, rhs)
 }
 
 public func matches<L, R>(_ lhs: L, _ rhs: R) -> PredicateBuilder
   where L: Expression & AnyComparable,
-        R: Expression & TypeComparable,
-        R.PQIComparisonType == String
+        R: Expression
 {
   compare(lhs, .matches, rhs)
+}
+
+public func %~ <L, R>(lhs: L, rhs: R) -> PredicateBuilder
+  where L: Expression & TypeComparable & Variable,
+        R: Expression & TypeComparable,
+        L.PQIComparisonType == String,
+        L.PQIComparisonType == R.PQIComparisonType
+{
+  matches(lhs, _: rhs)
+}
+
+public func %~ <L, R>(lhs: L, rhs: R) -> PredicateBuilder
+  where L: Expression & AnyComparable & Variable,
+        R: Expression
+{
+  matches(lhs, _: rhs)
 }
 
 public func between<L, R>(_ lhs: L, _ rhs: (R, R)) -> PredicateBuilder

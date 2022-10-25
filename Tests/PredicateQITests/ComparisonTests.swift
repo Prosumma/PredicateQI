@@ -69,4 +69,14 @@ final class ComparisonTests: XCTestCase {
     let houses = Store.houses.pqiFilter { any($0.inhabitants[Person.self].age <|> 7...11) }
     XCTAssertEqual(houses.count, 1)
   }
+  
+  func testMatches() {
+    let houses = Store.houses.pqiFilter { ci($0.address %~ ".*WHERE.*") }
+    XCTAssertEqual(houses.count, 2)
+  }
+  
+  func testLike() {
+    let houses = Store.houses.pqiFilter { di($0.address %* "*whére*") }
+    XCTAssertEqual(houses.count, 2)
+  }
 }

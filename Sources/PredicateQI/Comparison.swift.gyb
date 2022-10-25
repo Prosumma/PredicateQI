@@ -6,17 +6,18 @@
 //
 %{
 comparators = [
-  ("equal", "to", ".equalTo", "=="),
-  ("notEqual", "to", ".notEqualTo", "!="),
-  ("greater", "than", ".greaterThan", ">"),
-  ("greaterThanOrEqual", "to", ".greaterThanOrEqualTo", ">="),
-  ("less", "than", ".lessThan", "<"),
-  ("lessThanOrEqual", "to", ".lessThanOrEqualTo", "<="),
-  ("`in`", "_", ".in", "<~|"),
-  ("contains", "_", ".contains", "|~>"),
-  ("begins", "with", ".beginsWith", "<~%"),
-  ("ends", "with", ".endsWith", "%~>"),
-  ("like", "_", ".like", "%")
+  ("equal", "to", ".equalTo", "==", None),
+  ("notEqual", "to", ".notEqualTo", "!=", None),
+  ("greater", "than", ".greaterThan", ">", None),
+  ("greaterThanOrEqual", "to", ".greaterThanOrEqualTo", ">=", None),
+  ("less", "than", ".lessThan", "<", None),
+  ("lessThanOrEqual", "to", ".lessThanOrEqualTo", "<=", None),
+  ("`in`", "_", ".in", "<~|", None),
+  ("contains", "_", ".contains", "|~>", None),
+  ("begins", "with", ".beginsWith", "<~%", "String"),
+  ("ends", "with", ".endsWith", "%~>", "String"),
+  ("like", "_", ".like", "%*", "String"),
+  ("matches", "_", ".matches", "%~", "String")
 ]
 }%
 
@@ -46,6 +47,9 @@ public func compare<L: Expression, R: Expression>(
 public func ${comparator[0]}<L, R>(_ lhs: L, ${comparator[1]} rhs: R) -> PredicateBuilder
   where L: Expression & TypeComparable,
         R: Expression & TypeComparable,
+% if comparator[4] is not None:
+        L.PQIComparisonType == ${comparator[4]},
+% end
         L.PQIComparisonType == R.PQIComparisonType
 {
   compare(lhs, ${comparator[2]}, rhs)
@@ -68,6 +72,9 @@ public func ${comparator[0]}<L: Expression>(_ lhs: L, ${comparator[1]} rhs: Null
 public func ${comparator[3]} <L, R>(lhs: L, rhs: R) -> PredicateBuilder
   where L: Expression & TypeComparable & Variable,
         R: Expression & TypeComparable,
+% if comparator[4] is not None:
+        L.PQIComparisonType == ${comparator[4]},
+% end
         L.PQIComparisonType == R.PQIComparisonType
 {
   ${comparator[0]}(lhs, ${comparator[1]}: rhs)
@@ -87,23 +94,6 @@ public func ${comparator[3]} <L: Expression & Variable>(lhs: L, rhs: Null) -> Pr
 % end
 % end
 % end
-
-public func matches<L, R>(_ lhs: L, _ rhs: R) -> PredicateBuilder
-  where L: Expression & TypeComparable,
-        R: Expression & TypeComparable,
-        L.PQIComparisonType == String,
-        R.PQIComparisonType == String
-{
-  compare(lhs, .matches, rhs)
-}
-
-public func matches<L, R>(_ lhs: L, _ rhs: R) -> PredicateBuilder
-  where L: Expression & AnyComparable,
-        R: Expression & TypeComparable,
-        R.PQIComparisonType == String
-{
-  compare(lhs, .matches, rhs)
-}
 
 public func between<L, R>(_ lhs: L, _ rhs: (R, R)) -> PredicateBuilder
   where L: Expression & TypeComparable,
