@@ -5,19 +5,27 @@
 //  Created by Gregory Higley on 2022-10-14.
 //
 %{
+class Comparator:
+  def __init__(self, name, conj, enum, op, type=None):
+    self.name = name
+    self.conj = conj
+    self.enum = enum
+    self.op = op
+    self.type = type
+
 comparators = [
-  ("equal", "to", ".equalTo", "==", None),
-  ("notEqual", "to", ".notEqualTo", "!=", None),
-  ("greater", "than", ".greaterThan", ">", None),
-  ("greaterThanOrEqual", "to", ".greaterThanOrEqualTo", ">=", None),
-  ("less", "than", ".lessThan", "<", None),
-  ("lessThanOrEqual", "to", ".lessThanOrEqualTo", "<=", None),
-  ("`in`", "_", ".in", "<~|", None),
-  ("contains", "_", ".contains", "|~>", None),
-  ("begins", "with", ".beginsWith", "<~%", "String"),
-  ("ends", "with", ".endsWith", "%~>", "String"),
-  ("like", "_", ".like", "%*", "String"),
-  ("matches", "_", ".matches", "%~", "String")
+  Comparator("equal", "to", ".equalTo", "=="),
+  Comparator("notEqual", "to", ".notEqualTo", "!="),
+  Comparator("greater", "than", ".greaterThan", ">"),
+  Comparator("greaterThanOrEqual", "to", ".greaterThanOrEqualTo", ">="),
+  Comparator("less", "than", ".lessThan", "<"),
+  Comparator("lessThanOrEqual", "to", ".lessThanOrEqualTo", "<="),
+  Comparator("`in`", "_", ".in", "<~|"),
+  Comparator("contains", "_", ".contains", "|~>"),
+  Comparator("begins", "with", ".beginsWith", "<~%", "String"),
+  Comparator("ends", "with", ".endsWith", "%~>", "String"),
+  Comparator("like", "_", ".like", "%*", "String"),
+  Comparator("matches", "_", ".matches", "%~", "String")
 ]
 }%
 
@@ -44,52 +52,60 @@ public func compare<L: Expression, R: Expression>(
 }
 % for comparator in comparators:
 
-public func ${comparator[0]}<L, R>(_ lhs: L, ${comparator[1]} rhs: R) -> PredicateBuilder
+public func ${comparator.name}<L, R>(_ lhs: L, ${comparator.conj} rhs: R) -> PredicateBuilder
   where L: Expression & TypeComparable,
         R: Expression & TypeComparable,
-% if comparator[4] is not None:
-        L.PQIComparisonType == ${comparator[4]},
+% if comparator.type is not None:
+        L.PQIComparisonType == ${comparator.type},
 % end
         L.PQIComparisonType == R.PQIComparisonType
 {
-  compare(lhs, ${comparator[2]}, rhs)
+  compare(lhs, ${comparator.enum}, rhs)
 }
 
-public func ${comparator[0]}<L, R>(_ lhs: L, ${comparator[1]} rhs: R) -> PredicateBuilder
+public func ${comparator.name}<L, R>(_ lhs: L, ${comparator.conj} rhs: R) -> PredicateBuilder
   where L: Expression & AnyComparable,
+% if comparator.type is None:
         R: Expression
+% else:
+        R: Expression & TypeComparable<${comparator.type}>
+% end
 {
-  compare(lhs, ${comparator[2]}, rhs)
+  compare(lhs, ${comparator.enum}, rhs)
 }
-% if (comparator[0] in ["equal", "notEqual"]):
+% if comparator.name in ["equal", "notEqual"]:
 
-public func ${comparator[0]}<L: Expression>(_ lhs: L, ${comparator[1]} rhs: Null) -> PredicateBuilder {
-  compare(lhs, ${comparator[2]}, rhs)
+public func ${comparator.name}<L: Expression>(_ lhs: L, ${comparator.conj} rhs: Null) -> PredicateBuilder {
+  compare(lhs, ${comparator.enum}, rhs)
 }
 % end
-% if comparator[3] is not None:
+% if comparator.op is not None:
 
-public func ${comparator[3]} <L, R>(lhs: L, rhs: R) -> PredicateBuilder
+public func ${comparator.op} <L, R>(lhs: L, rhs: R) -> PredicateBuilder
   where L: Expression & TypeComparable & Variable,
         R: Expression & TypeComparable,
-% if comparator[4] is not None:
-        L.PQIComparisonType == ${comparator[4]},
+% if comparator.type is not None:
+        L.PQIComparisonType == ${comparator.type},
 % end
         L.PQIComparisonType == R.PQIComparisonType
 {
-  ${comparator[0]}(lhs, ${comparator[1]}: rhs)
+  ${comparator.name}(lhs, ${comparator.conj}: rhs)
 }
 
-public func ${comparator[3]} <L, R>(lhs: L, rhs: R) -> PredicateBuilder
+public func ${comparator.op} <L, R>(lhs: L, rhs: R) -> PredicateBuilder
   where L: Expression & AnyComparable & Variable,
+% if comparator.type is None:
         R: Expression
+% else:
+        R: Expression & TypeComparable<${comparator.type}>
+% end
 {
-  ${comparator[0]}(lhs, ${comparator[1]}: rhs)
+  ${comparator.name}(lhs, ${comparator.conj}: rhs)
 }
-% if (comparator[0] in ["equal", "notEqual"]):
+% if comparator.name in ["equal", "notEqual"]:
 
-public func ${comparator[3]} <L: Expression & Variable>(lhs: L, rhs: Null) -> PredicateBuilder {
-  compare(lhs, ${comparator[2]}, rhs)
+public func ${comparator.op} <L: Expression & Variable>(lhs: L, rhs: Null) -> PredicateBuilder {
+  compare(lhs, ${comparator.enum}, rhs)
 }
 % end
 % end

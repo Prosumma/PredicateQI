@@ -294,7 +294,7 @@ public func begins<L, R>(_ lhs: L, with rhs: R) -> PredicateBuilder
 
 public func begins<L, R>(_ lhs: L, with rhs: R) -> PredicateBuilder
   where L: Expression & AnyComparable,
-        R: Expression
+        R: Expression & TypeComparable<String>
 {
   compare(lhs, .beginsWith, rhs)
 }
@@ -310,7 +310,7 @@ public func <~% <L, R>(lhs: L, rhs: R) -> PredicateBuilder
 
 public func <~% <L, R>(lhs: L, rhs: R) -> PredicateBuilder
   where L: Expression & AnyComparable & Variable,
-        R: Expression
+        R: Expression & TypeComparable<String>
 {
   begins(lhs, with: rhs)
 }
@@ -326,7 +326,7 @@ public func ends<L, R>(_ lhs: L, with rhs: R) -> PredicateBuilder
 
 public func ends<L, R>(_ lhs: L, with rhs: R) -> PredicateBuilder
   where L: Expression & AnyComparable,
-        R: Expression
+        R: Expression & TypeComparable<String>
 {
   compare(lhs, .endsWith, rhs)
 }
@@ -342,7 +342,7 @@ public func %~> <L, R>(lhs: L, rhs: R) -> PredicateBuilder
 
 public func %~> <L, R>(lhs: L, rhs: R) -> PredicateBuilder
   where L: Expression & AnyComparable & Variable,
-        R: Expression
+        R: Expression & TypeComparable<String>
 {
   ends(lhs, with: rhs)
 }
@@ -358,7 +358,7 @@ public func like<L, R>(_ lhs: L, _ rhs: R) -> PredicateBuilder
 
 public func like<L, R>(_ lhs: L, _ rhs: R) -> PredicateBuilder
   where L: Expression & AnyComparable,
-        R: Expression
+        R: Expression & TypeComparable<String>
 {
   compare(lhs, .like, rhs)
 }
@@ -374,7 +374,7 @@ public func %* <L, R>(lhs: L, rhs: R) -> PredicateBuilder
 
 public func %* <L, R>(lhs: L, rhs: R) -> PredicateBuilder
   where L: Expression & AnyComparable & Variable,
-        R: Expression
+        R: Expression & TypeComparable<String>
 {
   like(lhs, _: rhs)
 }
@@ -390,7 +390,7 @@ public func matches<L, R>(_ lhs: L, _ rhs: R) -> PredicateBuilder
 
 public func matches<L, R>(_ lhs: L, _ rhs: R) -> PredicateBuilder
   where L: Expression & AnyComparable,
-        R: Expression
+        R: Expression & TypeComparable<String>
 {
   compare(lhs, .matches, rhs)
 }
@@ -406,7 +406,7 @@ public func %~ <L, R>(lhs: L, rhs: R) -> PredicateBuilder
 
 public func %~ <L, R>(lhs: L, rhs: R) -> PredicateBuilder
   where L: Expression & AnyComparable & Variable,
-        R: Expression
+        R: Expression & TypeComparable<String>
 {
   matches(lhs, _: rhs)
 }
