@@ -15,19 +15,34 @@ extension NSExpression.ExpressionType {
   var pqiDescription: String {
     let description: String
     switch self {
+    case .aggregate:
+      description = "aggregate"
     case .anyKey:
-      description = ".anyKey"
+      description = "anyKey"
     case .block:
-      description = ".block"
+      description = "block"
     case .conditional:
-      description = ".conditional"
+      description = "conditional"
     case .constantValue:
-      description = ".constantValue"
+      description = "constantValue"
+    case .function:
+      description = "function"
+    case .intersectSet:
+      description = "intersectSet"
+    case .keyPath:
+      description = "keyPath"
+    case .minusSet:
+      description = "minusSet"
+    case .unionSet:
+      description = "unionSet"
+    case .subquery:
+      description = "subquery"
+    case .variable:
+      description = "variable"
     default:
-      // TODO: Fix this
-      description = "foo"
+      description = "unknown"
     }
-    return description
+    return ".\(description)"
   }
 }
 
@@ -56,7 +71,6 @@ func ++ (lhs: NSExpression, rhs: NSExpression) -> NSExpression {
   case (_, .evaluatedObject):
     expression = lhs
   default:
-    // TODO: Handle errors, invalid combinations and parentheses
     expression = NSExpression(format: "\(lhs.pqiFormat).\(rhs.pqiFormat)")
   }
   return expression
@@ -67,16 +81,13 @@ func ++ (lhs: NSExpression, rhs: String) -> NSExpression {
 }
 
 func ++ (lhs: NSExpression, rhs: Int) -> NSExpression {
-  // TODO: Handle errors, invalid combinations and parentheses
   NSExpression(format: "\(lhs.pqiFormat)[\(rhs)]")
 }
 
 func ++ (lhs: NSExpression, rhs: Index) -> NSExpression {
-  // TODO: Handle errors, invalid combinations and parentheses
   NSExpression(format: "\(lhs.pqiFormat)[\(rhs.rawValue)]")
 }
 
 func ++ (lhs: NSExpression, rhs: Size) -> NSExpression {
-  // TODO: Handle errors, invalid combinations and parentheses
   NSExpression(format: "\(lhs.pqiFormat)[\(rhs.rawValue)]")
 }
