@@ -39,8 +39,14 @@ final class ComparisonTests: XCTestCase {
     XCTAssertEqual(houses.count, 1)
   }
   
-  func testIn() {
+  func testInString() {
     let houses = Store.houses.pqiFilter { "Nowhere"^ <~| $0.address }
+    XCTAssertEqual(houses.count, 1)
+  }
+  
+  func testInCollection() {
+    let names: Set<String> = ["99 Nowhere St.", "Bad Address"]
+    let houses = Store.houses.pqiFilter { $0.address <~| names }
     XCTAssertEqual(houses.count, 1)
   }
   
