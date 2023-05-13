@@ -7,24 +7,28 @@
 
 import Foundation
 
-public func and(_ lhs: @escaping PredicateBuilder, _ rhs: @escaping PredicateBuilder) -> PredicateBuilder {
+public func and(_ builders: [PredicateBuilder]) -> PredicateBuilder {
   return { context in
-    let lp = lhs(context)
-    let rp = rhs(context)
-    return NSCompoundPredicate(type: .and, subpredicates: [lp, rp])
+    NSCompoundPredicate(type: .and, subpredicates: builders.map { $0(context) })
   }
+}
+
+public func and(_ builders: PredicateBuilder...) -> PredicateBuilder {
+  and(builders)
 }
 
 public func && (lhs: @escaping PredicateBuilder, rhs: @escaping PredicateBuilder) -> PredicateBuilder {
   and(lhs, rhs)
 }
 
-public func or(_ lhs: @escaping PredicateBuilder, _ rhs: @escaping PredicateBuilder) -> PredicateBuilder {
+public func or(_ builders: [PredicateBuilder]) -> PredicateBuilder {
   return { context in
-    let lp = lhs(context)
-    let rp = rhs(context)
-    return NSCompoundPredicate(type: .or, subpredicates: [lp, rp])
+    NSCompoundPredicate(type: .or, subpredicates: builders.map { $0(context) })
   }
+}
+
+public func or(_ builders: PredicateBuilder...) -> PredicateBuilder {
+  or(builders)
 }
 
 public func || (lhs: @escaping PredicateBuilder, rhs: @escaping PredicateBuilder) -> PredicateBuilder {
