@@ -14,6 +14,15 @@ public struct PredicateContext {
 
 public typealias PredicateBuilder = (PredicateContext) -> NSPredicate
 
+public func echo(_ builder: @escaping PredicateBuilder) -> PredicateBuilder {
+  guard !PredicateQIConfiguration.logPredicatesToConsole else { return builder }
+  return { context in
+    let predicate = builder(context)
+    print("PredicateQI: \(predicate)")
+    return predicate
+  }
+}
+
 public func pred(_ builder: PredicateBuilder) -> NSPredicate {
   let predicate = builder(PredicateContext())
   if PredicateQIConfiguration.logPredicatesToConsole {
