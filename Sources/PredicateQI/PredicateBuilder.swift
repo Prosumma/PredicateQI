@@ -22,6 +22,14 @@ public func pred(_ builder: PredicateBuilder) -> NSPredicate {
   return predicate
 }
 
+public func direct(_ builder: @escaping PredicateBuilder) -> PredicateBuilder {
+  return { context in
+    var context = context
+    context.modifier = .direct
+    return builder(context)
+  }
+}
+
 public func all(_ builder: @escaping PredicateBuilder) -> PredicateBuilder {
   return { context in
     var context = context
