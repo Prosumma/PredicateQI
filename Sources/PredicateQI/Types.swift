@@ -20,6 +20,8 @@ extension String: ConstantExpression, TypeComparable {}
 extension Bool: ConstantExpression, TypeComparable {}
 extension Data: ConstantExpression, TypeComparable {}
 extension Date: ConstantExpression, TypeComparable {}
+extension UUID: ConstantExpression, TypeComparable {}
+extension URL: ConstantExpression, TypeComparable {}
 
 extension Int: ConstantExpression, TypeComparable {
   public typealias PQIComparisonType = NSNumber
@@ -37,7 +39,15 @@ extension Int64: ConstantExpression, TypeComparable {
   public typealias PQIComparisonType = NSNumber
 }
 
+extension Decimal: ConstantExpression, TypeComparable {
+  public typealias PQIComparisonType = NSNumber
+}
+
 extension Double: ConstantExpression, TypeComparable {
+  public typealias PQIComparisonType = NSNumber
+}
+
+extension Float: ConstantExpression, TypeComparable {
   public typealias PQIComparisonType = NSNumber
 }
 

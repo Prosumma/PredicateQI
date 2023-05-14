@@ -39,18 +39,18 @@ public struct TypedExpression<T: TypeComparable>: Expression, TypeComparable, Va
 
 public extension TypedExpression where T: NSNumber {
   var pqiInt: TypedExpression<Int> {
-    TypedExpression<Int>(pqiExpression)
+    self[Int.self]
   }
   var pqiInt16: TypedExpression<Int16> {
-    TypedExpression<Int16>(pqiExpression)
+    self[Int16.self]
   }
   var pqiInt32: TypedExpression<Int32> {
-    TypedExpression<Int32>(pqiExpression)
+    self[Int32.self]
   }
   var pqiInt64: TypedExpression<Int64> {
-    TypedExpression<Int64>(pqiExpression)
+    self[Int64.self]
   }
   var pqiDouble: TypedExpression<Double> {
-    TypedExpression<Double>(pqiExpression)
+    self[Double.self]
   }
 }
