@@ -48,21 +48,3 @@ extension Array: Expression, ConstantExpression, TypeComparable where Element: T
 extension Set: Expression, ConstantExpression, TypeComparable where Element: TypeComparable {
   public typealias PQIComparisonType = Element.PQIComparisonType
 }
-
-public extension Expression where Self: TypeComparable, Self.PQIComparisonType == NSNumber {
-  var pqiInt: TypedExpression<Int> {
-    TypedExpression(pqiExpression)
-  }
-  var pqiInt16: TypedExpression<Int16> {
-    TypedExpression(pqiExpression)
-  }
-  var pqiInt32: TypedExpression<Int32> {
-    TypedExpression(pqiExpression)
-  }
-  var pqiInt64: TypedExpression<Int64> {
-    TypedExpression(pqiExpression)
-  }
-  var pqiDouble: TypedExpression<Double> {
-    TypedExpression(pqiExpression)
-  }
-}

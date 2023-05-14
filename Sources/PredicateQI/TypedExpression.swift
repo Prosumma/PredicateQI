@@ -36,3 +36,21 @@ public struct TypedExpression<T: TypeComparable>: Expression, TypeComparable, Va
     .init(pqiExpression ++ size)
   }
 }
+
+public extension TypedExpression where T: NSNumber {
+  var pqiInt: TypedExpression<Int> {
+    TypedExpression<Int>(pqiExpression)
+  }
+  var pqiInt16: TypedExpression<Int16> {
+    TypedExpression<Int16>(pqiExpression)
+  }
+  var pqiInt32: TypedExpression<Int32> {
+    TypedExpression<Int32>(pqiExpression)
+  }
+  var pqiInt64: TypedExpression<Int64> {
+    TypedExpression<Int64>(pqiExpression)
+  }
+  var pqiDouble: TypedExpression<Double> {
+    TypedExpression<Double>(pqiExpression)
+  }
+}
