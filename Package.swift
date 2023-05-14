@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
   name: "PredicateQI",
-  platforms: [.macOS(.v12), .iOS(.v16), .tvOS(.v15), .watchOS(.v8)],
+  platforms: [.macOS(.v10_15), .iOS(.v13), .tvOS(.v13), .watchOS(.v6)],
   products: [
     .library(
       name: "PredicateQI",
@@ -23,5 +23,6 @@ let package = Package(
       name: "PredicateQITests",
       dependencies: ["PredicateQI"]
     )
-  ]
+  ],
+  swiftLanguageVersions: [.v5]
 )
