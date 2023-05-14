@@ -53,4 +53,10 @@ public extension TypedExpression where T: NSNumber {
   var pqiDouble: TypedExpression<Double> {
     self[Double.self]
   }
+  var pqiDecimal: TypedExpression<Decimal> {
+    self[Decimal.self]
+  }
+  var pqiFloat: TypedExpression<Float> {
+    self[Float.self]
+  }
 }
